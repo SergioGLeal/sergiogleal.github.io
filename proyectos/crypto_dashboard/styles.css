@@ -1,84 +1,240 @@
+/* ================================
+   ESTILOS BASE
+================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Inter', sans-serif;
-    margin: 0;
-    background: #f3f3f3;
-    color: #333;
+    background: #f7f8fc;
+    color: #1e1e1e;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* ================================
+   HEADER
+================================ */
 header {
-    background: #4A2EFF;
+    background: linear-gradient(135deg, #4A2EFF, #7A5CFF);
     color: white;
-    padding: 40px;
+    padding: 60px 20px;
     text-align: center;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.15);
+    animation: fadeDown 1s ease;
 }
 
+@keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ================================
+   BUSCADOR
+================================ */
 .buscador {
-    padding: 20px;
+    padding: 25px;
     text-align: center;
 }
 
 .buscador input {
     width: 60%;
-    padding: 12px;
+    max-width: 500px;
+    padding: 14px;
     font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #aaa;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    outline: none;
+    background: white;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.05);
+    transition: 0.25s;
 }
 
+.buscador input:focus {
+    border-color: #4A2EFF;
+    box-shadow: 0px 4px 15px rgba(74,46,255,0.25);
+}
+
+/* ================================
+   TABLA
+================================ */
 .tabla {
     width: 90%;
-    margin: auto;
+    margin: 20px auto;
     border-collapse: collapse;
     background: white;
-    border-radius: 10px;
+    border-radius: 14px;
     overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    animation: fadeUp 0.8s ease;
 }
 
-.tabla th, .tabla td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 .tabla th {
+    padding: 14px;
     background: #4A2EFF;
     color: white;
+    font-weight: 600;
+    text-align: left;
 }
 
+.tabla td {
+    padding: 14px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.25s;
+}
+
+.tabla tr:hover td {
+    background: #f3f0ff;
+}
+
+/* ICONO DE MONEDA */
 .moneda {
     display: flex;
     align-items: center;
+    font-weight: 500;
 }
 
 .moneda img {
-    width: 26px;
+    width: 28px;
     margin-right: 10px;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
 }
 
+/* -------------------------------
+   COLORES DE SUBIDA / BAJADA
+-------------------------------- */
 .subio {
-    color: green;
+    color: #00b341;
+    font-weight: 600;
 }
 
 .bajo {
-    color: red;
+    color: #ff2d2d;
+    font-weight: 600;
 }
 
+/* ================================
+   PANEL DE DETALLES
+================================ */
 .detalles {
     width: 90%;
     margin: 40px auto;
     background: white;
-    padding: 20px;
-    border-radius: 12px;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    animation: fadeScale 0.5s ease;
+}
+
+@keyframes fadeScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+#cerrar {
+    background: #4A2EFF;
+    padding: 10px 16px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    float: right;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+#cerrar:hover {
+    background: #3720cc;
+    transform: translateY(-2px);
 }
 
 .oculto {
     display: none;
 }
 
-#cerrar {
-    background: #4A2EFF;
-    padding: 8px 15px;
-    color: white;
-    border: none;
-    cursor: pointer;
+/* ================================
+   MODO OSCURO AUTOMÁTICO (OPCIONAL)
+================================ */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #121212;
+        color: #e6e6e6;
+    }
+
+    header {
+        box-shadow: none;
+    }
+
+    .tabla, .detalles {
+        background: #1e1e1e;
+        box-shadow: 0 0 0 rgba(0,0,0,0);
+    }
+
+    .tabla td {
+        border-bottom: 1px solid #333;
+    }
+
+    .tabla tr:hover td {
+        background: #2a214b;
+    }
+
+    .buscador input {
+        background: #1e1e1e;
+        border-color: #444;
+        color: white;
+    }
+
+    #cerrar {
+        background: #7A5CFF;
+    }
+}
+
+/* =======================================================
+   SKELETON LOADER
+======================================================= */
+
+.skeleton {
+    background: linear-gradient(90deg, #e2e2e2 25%, #f3f3f3 40%, #e2e2e2 60%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
     border-radius: 6px;
+}
+
+.skeleton-text {
+    height: 20px;
+    width: 100%;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Animación tabla */
+.fade-in-row {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animación panel detalles */
+.fade-in-panel {
+    animation: fadeScale 0.4s ease;
+}
+
+@keyframes fadeScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
 }

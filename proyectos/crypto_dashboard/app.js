@@ -1,174 +1,78 @@
-// =======================================================
-// CONFIGURACIÓN
-// =======================================================
-const API_URL = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
-const tablaBody = document.getElementById("tabla-body");
-const inputBusqueda = document.getElementById("input-busqueda");
-
+const API = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd";
 let datos = [];
-let grafica = null; // Para evitar crear muchas gráficas
+let ordenActual = true; // true = ascendente, false = descendente
 
-// =======================================================
-// SKELETON LOADER (Efecto de carga profesional)
-// =======================================================
-function mostrarSkeleton() {
-    tablaBody.innerHTML = "";
+document.addEventListener("DOMContentLoaded", () => {
+    cargarDatos();
 
-    for (let i = 0; i < 10; i++) {
-        tablaBody.innerHTML += `
-            <tr class="skeleton-row">
-                <td class="skeleton skeleton-text"></td>
-                <td class="skeleton skeleton-text"></td>
-                <td class="skeleton skeleton-text"></td>
-                <td class="skeleton skeleton-text"></td>
-                <td class="skeleton skeleton-text"></td>
-            </tr>
-        `;
-    }
-}
+    document.getElementById("buscar").addEventListener("input", filtrar);
 
-// =======================================================
-// OBTENER DATOS PRINCIPALES
-// =======================================================
+    const headers = document.querySelectorAll("th");
+    headers.forEach(th => {
+        th.addEventListener("click", () => {
+            ordenarPorColumna(th.dataset.col);
+        });
+    });
+
+    document.getElementById("cerrar").addEventListener("click", () => {
+        document.getElementById("detalles").classList.add("oculto");
+    });
+});
+
 async function cargarDatos() {
-    mostrarSkeleton();
-
-    try {
-        const res = await fetch(API_URL);
-        if (!res.ok) throw new Error("Error al obtener datos");
-
-        datos = await res.json();
-        mostrarTabla(datos);
-
-    } catch (error) {
-        tablaBody.innerHTML = `<tr><td colspan="5">Error al obtener datos</td></tr>`;
-        console.error(error);
-    }
+    const res = await fetch(API);
+    datos = await res.json();
+    mostrarTabla(datos);
 }
 
-// =======================================================
-// MOSTRAR TABLA
-// =======================================================
 function mostrarTabla(lista) {
-    tablaBody.innerHTML = "";
+    const tabla = document.getElementById("contenido");
+    tabla.innerHTML = "";
 
-    lista.forEach((coin, index) => {
+    lista.forEach(moneda => {
         const fila = document.createElement("tr");
-        fila.classList.add("fade-in-row");
-
         fila.innerHTML = `
-            <td>${index + 1}</td>
             <td class="moneda">
-                <img src="${coin.image}">
-                ${coin.name} (${coin.symbol.toUpperCase()})
+                <img src="${moneda.image}">
+                ${moneda.name}
             </td>
-            <td>$${coin.current_price.toLocaleString()}</td>
-            <td class="${coin.price_change_percentage_24h >= 0 ? "subio" : "bajo"}">
-                ${coin.price_change_percentage_24h.toFixed(2)}%
+            <td>$${moneda.current_price.toLocaleString()}</td>
+            <td class="${moneda.price_change_percentage_24h >= 0 ? 'subio' : 'bajo'}">
+                ${moneda.price_change_percentage_24h.toFixed(2)}%
             </td>
-            <td>$${coin.market_cap.toLocaleString()}</td>
+            <td>$${moneda.market_cap.toLocaleString()}</td>
         `;
 
-        fila.onclick = () => mostrarDetalles(coin.id);
-        tablaBody.appendChild(fila);
+        fila.addEventListener("click", () => mostrarDetalles(moneda));
+        tabla.appendChild(fila);
     });
 }
 
-// =======================================================
-// BUSCADOR
-// =======================================================
-inputBusqueda.addEventListener("input", () => {
-    const texto = inputBusqueda.value.toLowerCase();
-    const filtrado = datos.filter(c =>
-        c.name.toLowerCase().includes(texto) ||
-        c.symbol.toLowerCase().includes(texto)
+function mostrarDetalles(moneda) {
+    document.getElementById("detalle-nombre").innerText = moneda.name;
+    document.getElementById("detalle-precio").innerText = "Precio actual: $" + moneda.current_price.toLocaleString();
+    document.getElementById("detalle-descripcion").innerText =
+        moneda.symbol.toUpperCase() + " | Ranking: " + moneda.market_cap_rank;
+
+    document.getElementById("detalles").classList.remove("oculto");
+}
+
+function filtrar() {
+    const texto = document.getElementById("buscar").value.toLowerCase();
+    const filtrado = datos.filter(m =>
+        m.name.toLowerCase().includes(texto) ||
+        m.symbol.toLowerCase().includes(texto)
     );
     mostrarTabla(filtrado);
-});
-
-// =======================================================
-// MOSTRAR DETALLES Y GRÁFICA
-// =======================================================
-async function mostrarDetalles(id) {
-    mostrarPanel();
-
-    try {
-        // Obtener info principal
-        const res = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`);
-        const data = await res.json();
-
-        document.getElementById("titulo-detalle").innerText = data.name;
-        document.getElementById("desc").innerHTML =
-            (data.description?.en || "Sin descripción disponible.")
-                .slice(0, 350) + "...";
-
-        // Obtener precios para la gráfica
-        const precios = await fetch(
-            `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7`
-        ).then(r => r.json());
-
-        const labels = precios.prices.map(p =>
-            new Date(p[0]).toLocaleDateString()
-        );
-        const valores = precios.prices.map(p => p[1]);
-
-        // Destruir gráfica previa si existe
-        if (grafica) grafica.destroy();
-
-        // Crear gradiente profesional
-        const ctx = document.getElementById("grafica").getContext("2d");
-        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, "rgba(74,46,255,0.7)");
-        gradient.addColorStop(1, "rgba(74,46,255,0.05)");
-
-        grafica = new Chart(ctx, {
-            type: "line",
-            data: {
-                labels,
-                datasets: [{
-                    label: "Precio últimos 7 días",
-                    data: valores,
-                    borderColor: "#4A2EFF",
-                    backgroundColor: gradient,
-                    fill: true,
-                    tension: 0.35,
-                    borderWidth: 3,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                animation: { duration: 900 },
-                plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    x: { ticks: { color: "#666" } },
-                    y: { ticks: { color: "#666" } }
-                }
-            }
-        });
-
-    } catch (error) {
-        console.error("Error cargando detalles", error);
-    }
 }
 
-// =======================================================
-// MOSTRAR / OCULTAR PANEL DETALLES
-// =======================================================
-function mostrarPanel() {
-    const panel = document.getElementById("detalles");
-    panel.classList.remove("oculto");
-    panel.classList.add("fade-in-panel");
+function ordenarPorColumna(col) {
+    ordenActual = !ordenActual;
+
+    datos.sort((a, b) => {
+        if (ordenActual) return a[col] > b[col] ? 1 : -1;
+        else return a[col] < b[col] ? 1 : -1;
+    });
+
+    mostrarTabla(datos);
 }
-
-document.getElementById("cerrar").onclick = () => {
-    const panel = document.getElementById("detalles");
-    panel.classList.add("oculto");
-};
-
-// =======================================================
-// INICIAR
-// =======================================================
-cargarDatos();

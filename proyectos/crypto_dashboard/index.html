@@ -3,78 +3,39 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Crypto Dashboard - Sergio Leal</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <!-- Animaciones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
-    <!-- AOS Animaciones al hacer scroll -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-    <!-- Iconos -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="styles.css">
-
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>CryptoTracker Pro</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
 
-    <!-- Encabezado -->
-    <header class="header animate__animated animate__fadeInDown">
-        <h1>Crypto Dashboard</h1>
-        <p>Monitoreo en tiempo real de criptomonedas</p>
+    <header>
+        <h1>CryptoTracker Pro</h1>
+        <p>Consulta precios, cambios y detalles de tus cryptos favoritas</p>
     </header>
 
-    <!-- Buscador -->
-    <section class="buscador" data-aos="fade-up">
-        <input type="text" id="input-busqueda" placeholder="Buscar criptomoneda...">
+    <section class="buscador">
+        <input type="text" id="buscar" placeholder="Buscar una criptomoneda...">
     </section>
 
-    <!-- Contenedor principal -->
-    <section class="contenedor-tabla" data-aos="fade-up">
-        <table class="tabla">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Moneda</th>
-                    <th>Precio</th>
-                    <th>Cambio 24h</th>
-                    <th>Market Cap</th>
-                </tr>
-            </thead>
-            <tbody id="tabla-body"></tbody>
-        </table>
-    </section>
+    <table class="tabla" id="tablaCrypto">
+        <thead>
+            <tr>
+                <th data-col="name">Moneda ⮟</th>
+                <th data-col="current_price">Precio</th>
+                <th data-col="price_change_percentage_24h">% 24h</th>
+                <th data-col="market_cap">Market Cap</th>
+            </tr>
+        </thead>
+        <tbody id="contenido"></tbody>
+    </table>
 
-    <!-- Panel de detalles -->
-    <section id="detalles" class="detalles oculto animate__animated animate__fadeInUp">
-        <button id="cerrar" class="btn-cerrar">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
+    <div id="detalles" class="detalles oculto">
+        <button id="cerrar">Cerrar</button>
+        <h2 id="detalle-nombre"></h2>
+        <p id="detalle-precio"></p>
+        <p id="detalle-descripcion"></p>
+    </div>
 
-        <h2 id="titulo-detalle"></h2>
-        <canvas id="grafica"></canvas>
-        <p id="desc"></p>
-    </section>
-
-    <!-- SweetAlert2 -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <!-- AOS Script -->
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init();
-    </script>
-
-    <!-- JS -->
-    <script src="app.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>

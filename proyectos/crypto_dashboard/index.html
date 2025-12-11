@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Dashboard - Sergio Leal</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <h1>Crypto Dashboard</h1>
+        <p>Precios en tiempo real utilizando una API pública</p>
+    </header>
+
+    <section class="buscador">
+        <input type="text" id="input-busqueda" placeholder="Buscar criptomoneda...">
+    </section>
+
+    <section>
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Moneda</th>
+                    <th>Precio</th>
+                    <th>Cambio 24h</th>
+                    <th>Market Cap</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body"></tbody>
+        </table>
+    </section>
+
+    <!-- Panel de detalles -->
+    <section id="detalles" class="detalles oculto">
+        <button id="cerrar">Cerrar</button>
+        <h2 id="titulo-detalle"></h2>
+        <canvas id="grafica"></canvas>
+        <p id="desc"></p>
+    </section>
+
+    <script src="app.js"></script>
+
+</body>
+</html>

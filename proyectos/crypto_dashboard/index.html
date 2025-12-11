@@ -1,108 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>CryptoTracker Pro - Sergio Leal</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crypto Dashboard - Sergio Leal</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome para iconos -->
+    <!-- Animaciones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+    <!-- AOS Animaciones al hacer scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Iconos -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css" />
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-    <header class="header">
-        <div class="header-left">
-            <h1>CryptoTracker Pro</h1>
-            <p class="sub">Precios en tiempo real · Portafolio · Comparador</p>
-        </div>
-
-        <div class="header-right">
-            <div class="top-cards" id="topCards" aria-hidden="false">
-                <!-- Top 3 cards se renderizan desde JS -->
-            </div>
-
-            <div class="controls">
-                <button id="themeToggle" class="btn icon" title="Cambiar tema">
-                    <i id="themeIcon" class="fa-regular fa-moon"></i>
-                </button>
-
-                <button id="favoritesBtn" class="btn" title="Ver favoritos">
-                    <i class="fa-solid fa-star"></i> Favoritos
-                </button>
-            </div>
-        </div>
+    <!-- Encabezado -->
+    <header class="header animate__animated animate__fadeInDown">
+        <h1>Crypto Dashboard</h1>
+        <p>Monitoreo en tiempo real de criptomonedas</p>
     </header>
 
-    <main class="main">
-        <section class="search-row">
-            <input id="buscar" type="search" placeholder="Buscar criptomoneda (nombre o símbolo)..." />
-            <div class="actions">
-                <select id="perPage" title="Elementos por página">
-                    <option value="10">10 / pág</option>
-                    <option value="20">20 / pág</option>
-                    <option value="50">50 / pág</option>
-                </select>
+    <!-- Buscador -->
+    <section class="buscador" data-aos="fade-up">
+        <input type="text" id="input-busqueda" placeholder="Buscar criptomoneda...">
+    </section>
 
-                <button id="compareBtn" class="btn">Comparar (0/2)</button>
-            </div>
-        </section>
+    <!-- Contenedor principal -->
+    <section class="contenedor-tabla" data-aos="fade-up">
+        <table class="tabla">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Moneda</th>
+                    <th>Precio</th>
+                    <th>Cambio 24h</th>
+                    <th>Market Cap</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-body"></tbody>
+        </table>
+    </section>
 
-        <section class="table-wrap">
-            <table class="tabla" id="tablaCrypto" aria-label="Tabla de criptomonedas">
-                <thead>
-                    <tr>
-                        <th data-col="market_cap_rank" class="sortable">#</th>
-                        <th data-col="name" class="sortable">Moneda <i class="fa-solid fa-up-down"></i></th>
-                        <th data-col="current_price" class="sortable">Precio (USD)</th>
-                        <th data-col="price_change_percentage_24h" class="sortable">% 24h</th>
-                        <th data-col="market_cap" class="sortable">Market Cap</th>
-                        <th>Favorito</th>
-                        <th>Seleccionar</th>
-                    </tr>
-                </thead>
-                <tbody id="contenido">
-                    <!-- Filas inyectadas por JS -->
-                </tbody>
-            </table>
+    <!-- Panel de detalles -->
+    <section id="detalles" class="detalles oculto animate__animated animate__fadeInUp">
+        <button id="cerrar" class="btn-cerrar">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
 
-            <div class="pagination" id="pagination">
-                <!-- Botones de paginación -->
-            </div>
-        </section>
+        <h2 id="titulo-detalle"></h2>
+        <p id="desc"></p>
+    </section>
 
-        <!-- Panel detalles / modal simple -->
-        <aside id="detalles" class="detalles oculto" role="dialog" aria-hidden="true">
-            <button id="cerrar" class="btn icon close"><i class="fa-solid fa-xmark"></i></button>
-            <div id="detalle-contenido">
-                <h2 id="detalle-nombre"></h2>
-                <p id="detalle-precio"></p>
-                <p id="detalle-info"></p>
-                <a id="detalle-link" target="_blank" rel="noopener noreferrer">Abrir en CoinGecko</a>
-            </div>
-        </aside>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        <!-- Comparador -->
-        <div id="comparador" class="comparador oculto">
-            <button id="cerrarComparador" class="btn icon close"><i class="fa-solid fa-xmark"></i></button>
-            <h3>Comparador</h3>
-            <div id="comparadorInner" class="comparador-inner">
-                <!-- Dos columnas comparativas -->
-            </div>
-        </div>
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 
-    </main>
+    <!-- JS -->
+    <script src="app.js"></script>
 
-    <footer class="footer">
-        <p>Desarrollado por Sergio Antonio González Leal · Datos: CoinGecko API</p>
-        <p><small>Proyecto para portafolio • Para fines de demostración</small></p>
-    </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>

@@ -98,8 +98,12 @@
             width: 160px;
             height: 160px;
             object-fit: cover;
-            border: 5px solid var(--accent);
-            box-shadow: 0 8px 20px rgba(0,212,255,0.2);
+            border: 6px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
         }
 
         /* Proyectos */
@@ -151,16 +155,44 @@
             font-size: 0.95rem;
         }
 
-        /* Contacto */
-        .contact-item {
-            font-size: 1.1 Ra;
-            margin-bottom: 1rem;
+        /* Contacto - Mejor distribución */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .contact-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
         }
         .contact-icon {
+            font-size: 2rem;
             color: var(--accent);
-            font-size: 1.4rem;
-            margin-right: 10px;
+            margin-bottom: 12px;
         }
+        .contact-card p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+        .contact-card a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .contact-card a:hover {
+            color: var(--accent);
+        }
+
         .btn-cv {
             background: var(--accent);
             color: white;
@@ -192,7 +224,15 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 576px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
             header h1 { font-size: 2.2rem; }
             header p { font-size: 1.1rem; }
             .profile-img { width: 130px; height: 130px; }
@@ -248,7 +288,7 @@
     <div class="container">
         <h2 class="text-center mb-5">Habilidades Técnicas</h2>
         <div class="skills-slider">
-            <!-- IMÁGENES 100% FUNCIONALES -->
+            <!-- ICONOS A COLOR (todos) -->
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" class="skill-logo"><p>Python</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/php.svg" alt="PHP" class="skill-logo"><p>PHP</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mysql.svg" alt="MySQL" class="skill-logo"><p>MySQL</p></div>
@@ -258,7 +298,7 @@
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/css3.svg" alt="CSS" class="skill-logo"><p>CSS</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/postman.svg" alt="API REST" class="skill-logo"><p>API REST</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/git.svg" alt="Git" class="skill-logo"><p>Git</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Tkinter" class="skill-logo" style="filter: grayscale(1);"><p>Tkinter</p></div>
+            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Tkinter" class="skill-logo"><p>Tkinter</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" class="skill-logo"><p>React</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nodedotjs.svg" alt="Node.js" class="skill-logo"><p>Node.js</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/docker.svg" alt="Docker" class="skill-logo"><p>Docker</p></div>
@@ -307,30 +347,34 @@
 
 <!-- Contacto -->
 <section id="contacto" class="bg-light">
-    <div class="container text-center">
-        <h2 class="mb-5">Contacto</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="contact-item">
-                    <i class="bi bi-envelope contact-icon"></i>
-                    <strong>Email:</strong> sergioagonzalezleal25@gmail.com
-                </div>
-                <div class="contact-item">
-                    <i class="bi bi-linkedin contact-icon"></i>
-                    <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/sergio-antonio-gonzalez-leal-490b5435b" target="_blank">linkedin.com/in/sergio-gonzalez</a>
-                </div>
-                <div class="contact-item">
-                    <i class="bi bi-telephone contact-icon"></i>
-                    <strong>Teléfono:</strong> 846 115 3851
-                </div>
-                <div class="contact-item">
-                    <i class="bi bi-github contact-icon"></i>
-                    <strong>GitHub:</strong> <a href="https://github.com/SergioGLeal" target="_blank">github.com/SergioGLeal</a>
-                </div>
-                <a href="Sergio Antonio Gonzalez Leal CV.pdf" download class="btn-cv mt-4">
-                    <i class="bi bi-file-earmark-pdf"></i> Descargar CV
-                </a>
+    <div class="container">
+        <h2 class="text-center mb-5">Contacto</h2>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <i class="bi bi-envelope contact-icon"></i>
+                <p><strong>Email</strong></p>
+                <a href="mailto:sergioagonzalezleal25@gmail.com">sergioagonzalezleal25@gmail.com</a>
             </div>
+            <div class="contact-card">
+                <i class="bi bi-linkedin contact-icon"></i>
+                <p><strong>LinkedIn</strong></p>
+                <a href="https://www.linkedin.com/in/sergio-antonio-gonzalez-leal-490b5435b" target="_blank">linkedin.com/in/sergio-gonzalez</a>
+            </div>
+            <div class="contact-card">
+                <i class="bi bi-telephone contact-icon"></i>
+                <p><strong>Teléfono</strong></p>
+                <p>846 115 3851</p>
+            </div>
+            <div class="contact-card">
+                <i class="bi bi-github contact-icon"></i>
+                <p><strong>GitHub</strong></p>
+                <a href="https://github.com/SergioGLeal" target="_blank">github.com/SergioGLeal</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <a href="Sergio Antonio Gonzalez Leal CV.pdf" download class="btn-cv">
+                <i class="bi bi-file-earmark-pdf"></i> Descargar CV
+            </a>
         </div>
     </div>
 </section>

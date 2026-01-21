@@ -16,23 +16,31 @@
 </head>
 <body>
 
-    <header>
-        <h1>Imagen a PDF</h1>
-        <p>Convierte imágenes en un solo archivo PDF</p>
-    </header>
+<header>
+    <h1>Imagen a PDF</h1>
+    <p>Convierte imágenes en un solo archivo PDF</p>
+</header>
 
-    <main>
-        <input type="file" id="input-imagenes" multiple accept="image/*">
+<main class="card">
+    <input type="file" id="input-imagenes" multiple accept="image/*">
 
-        <button id="btn-convertir">
-            Convertir a PDF
-        </button>
-    </main>
+    <input 
+        type="text" 
+        id="nombre-pdf" 
+        placeholder="Nombre del PDF (opcional)"
+    >
 
-    <footer>
-        <p>Proyecto de portafolio · Sergio Antonio González Leal</p>
-    </footer>
+    <div id="preview" class="preview"></div>
 
-    <script src="app.js"></script>
+    <button id="btn-convertir" disabled>
+        Convertir a PDF
+    </button>
+</main>
+
+<footer>
+    <p>Proyecto de portafolio · Sergio Antonio González Leal</p>
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>

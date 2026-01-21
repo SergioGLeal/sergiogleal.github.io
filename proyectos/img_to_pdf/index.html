@@ -1,11 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Imagen a PDF | Sergio Leal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Imagen a PDF</h1>
+    <p>Convierte imágenes en un solo PDF</p>
+</header>
+
 <main class="layout">
 
     <!-- PANEL IZQUIERDO -->
     <section class="panel">
-        <h2>Imágenes a PDF</h2>
+        <h2>Opciones</h2>
         <p class="hint">Agrega imágenes y ordénalas antes de convertir</p>
 
-        <!-- input oculto -->
         <input type="file" id="input-imagenes" multiple accept="image/*" hidden>
 
         <button id="btn-agregar" class="btn-primary">
@@ -18,7 +43,7 @@
             placeholder="Nombre del PDF (opcional)"
         >
 
-        <button id="btn-convertir" disabled class="btn-success">
+        <button id="btn-convertir" class="btn-success" disabled>
             Generar PDF
         </button>
     </section>
@@ -34,3 +59,11 @@
     </section>
 
 </main>
+
+<footer>
+    Proyecto de portafolio · Sergio Antonio González Leal
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

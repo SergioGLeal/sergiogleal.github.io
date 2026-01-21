@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Imágenes a PDF</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Imagen a PDF | Sergio Leal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- SortableJS -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 </head>
 <body>
 
-  <div class="app">
+<header>
+    <h1>Imagen a PDF</h1>
+    <p>Convierte imágenes en un solo PDF</p>
+</header>
+
+<main class="layout">
+
     <!-- PANEL IZQUIERDO -->
-    <aside class="sidebar">
-      <h2>Opciones</h2>
+    <section class="panel">
+        <h2>Opciones</h2>
+        <p class="hint">Agrega imágenes y ordénalas antes de convertir</p>
 
-      <label class="upload-btn">
-        ➕ Agregar imágenes
-        <input type="file" id="inputImagenes" accept="image/*" multiple hidden>
-      </label>
+        <input type="file" id="input-imagenes" multiple accept="image/*" hidden>
 
-      <input
-        type="text"
-        id="nombrePdf"
-        placeholder="Nombre del PDF"
-      />
+        <button id="btn-agregar" class="btn-primary">
+            <i class="fa-solid fa-image"></i> Agregar imágenes
+        </button>
 
-      <button id="btnGenerar" class="generate-btn">
-        📄 Generar PDF
-      </button>
-    </aside>
+        <input
+            type="text"
+            id="nombre-pdf"
+            placeholder="Nombre del PDF (opcional)"
+        >
+
+        <button id="btn-convertir" class="btn-success" disabled>
+            <i class="fa-solid fa-file-pdf"></i> Generar PDF
+        </button>
+    </section>
 
     <!-- PANEL DERECHO -->
-    <section class="content">
-      <div class="content-header">
-        <h2>Imágenes</h2>
-        <span class="hint">⠿ Arrastra para ordenar</span>
-      </div>
+    <section class="preview-panel">
+        <div class="preview-header">
+            <span>Imágenes</span>
+            <span class="drag-hint">
+                <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                Arrastra para ordenar
+            </span>
+        </div>
 
-      <div id="preview" class="preview"></div>
+        <div id="preview" class="preview"></div>
     </section>
-  </div>
 
-  <script src="app.js"></script>
+</main>
+
+<footer>
+    Proyecto de portafolio · Sergio Antonio González Leal
+</footer>
+
+<script src="app.js"></script>
 </body>
 </html>

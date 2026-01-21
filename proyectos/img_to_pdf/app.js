@@ -1,67 +1,75 @@
-const input = document.getElementById("inputImagenes");
+const inputImagenes = document.getElementById("input-imagenes");
+const btnAgregar = document.getElementById("btn-agregar");
+const btnConvertir = document.getElementById("btn-convertir");
 const preview = document.getElementById("preview");
-const btnGenerar = document.getElementById("btnGenerar");
-const nombrePdfInput = document.getElementById("nombrePdf");
+const nombrePdf = document.getElementById("nombre-pdf");
 
 let imagenes = [];
 
-input.addEventListener("change", () => {
-  [...input.files].forEach(file => imagenes.push(file));
-  render();
-  input.value = "";
+/* ABRIR SELECTOR */
+btnAgregar.addEventListener("click", () => {
+    inputImagenes.click();
 });
 
+/* AGREGAR IMÁGENES (SIN REEMPLAZAR) */
+inputImagenes.addEventListener("change", () => {
+    [...inputImagenes.files].forEach(img => imagenes.push(img));
+    render();
+    inputImagenes.value = "";
+});
+
+/* RENDER */
 function render() {
-  preview.innerHTML = "";
+    preview.innerHTML = "";
 
-  imagenes.forEach((file, index) => {
-    const card = document.createElement("div");
-    card.className = "card";
+    imagenes.forEach((file, index) => {
+        const item = document.createElement("div");
+        item.className = "preview-item";
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
+        const img = document.createElement("img");
+        img.src = URL.createObjectURL(file);
 
-    const name = document.createElement("div");
-    name.className = "filename";
-    name.textContent = file.name;
+        const name = document.createElement("div");
+        name.className = "filename";
+        name.textContent = file.name;
 
-    const btn = document.createElement("button");
-    btn.className = "remove-btn";
-    btn.textContent = "Eliminar";
-    btn.onclick = () => {
-      imagenes.splice(index, 1);
-      render();
-    };
+        const btnEliminar = document.createElement("button");
+        btnEliminar.innerHTML = "❌";
+        btnEliminar.onclick = () => {
+            imagenes.splice(index, 1);
+            render();
+        };
 
-    card.append(img, name, btn);
-    preview.appendChild(card);
-  });
+        item.append(img, name, btnEliminar);
+        preview.appendChild(item);
+    });
 
-  Sortable.create(preview, {
-    animation: 200,
-    ghostClass: "dragging"
-  });
+    btnConvertir.disabled = imagenes.length === 0;
+
+    Sortable.create(preview, {
+        animation: 180
+    });
 }
 
-btnGenerar.addEventListener("click", async () => {
-  if (!imagenes.length) return alert("Agrega imágenes");
+/* GENERAR PDF */
+btnConvertir.addEventListener("click", async () => {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
 
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
+    for (let i = 0; i < imagenes.length; i++) {
+        const base64 = await toBase64(imagenes[i]);
+        if (i > 0) pdf.addPage();
+        pdf.addImage(base64, "JPEG", 10, 10, 190, 260);
+    }
 
-  for (let i = 0; i < imagenes.length; i++) {
-    const imgData = await toBase64(imagenes[i]);
-    if (i > 0) pdf.addPage();
-    pdf.addImage(imgData, "JPEG", 10, 10, 190, 260);
-  }
-
-  pdf.save(nombrePdfInput.value || "imagenes.pdf");
+    pdf.save(nombrePdf.value || "imagenes.pdf");
 });
 
+/* UTIL */
 function toBase64(file) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.readAsDataURL(file);
-  });
+    return new Promise(resolve => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+    });
 }

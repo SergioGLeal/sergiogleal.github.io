@@ -1,80 +1,73 @@
-const input = document.getElementById("input-imagenes");
-const btnAgregar = document.getElementById("btn-agregar");
+const input = document.getElementById("inputImagenes");
 const preview = document.getElementById("preview");
-const btnConvertir = document.getElementById("btn-convertir");
-const nombrePdf = document.getElementById("nombre-pdf");
+const btnGenerar = document.getElementById("btnGenerar");
+const nombrePdfInput = document.getElementById("nombrePdf");
 
 let imagenes = [];
 
-btnAgregar.onclick = () => input.click();
-
 input.addEventListener("change", () => {
-    imagenes.push(...Array.from(input.files));
-    input.value = ""; // evita reemplazo
-    renderPreview();
-    btnConvertir.disabled = imagenes.length === 0;
+  [...input.files].forEach(file => {
+    imagenes.push(file);
+  });
+  render();
+  input.value = "";
 });
 
-function renderPreview() {
-    preview.innerHTML = "";
+function render() {
+  preview.innerHTML = "";
 
-    imagenes.forEach((img, index) => {
-        const reader = new FileReader();
+  imagenes.forEach((file, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
 
-        reader.onload = () => {
-            const div = document.createElement("div");
-            div.className = "preview-item";
+    const img = document.createElement("img");
+    img.src = URL.createObjectURL(file);
 
-            div.innerHTML = `
-                <img src="${reader.result}">
-                <span class="filename">${img.name}</span>
-                <span class="drag">⠿</span>
-                <button title="Eliminar">&times;</button>
-            `;
+    const name = document.createElement("div");
+    name.className = "filename";
+    name.textContent = file.name;
 
-            div.querySelector("button").onclick = () => {
-                imagenes.splice(index, 1);
-                renderPreview();
-                btnConvertir.disabled = imagenes.length === 0;
-            };
+    const btn = document.createElement("button");
+    btn.className = "remove-btn";
+    btn.textContent = "Eliminar";
+    btn.onclick = () => {
+      imagenes.splice(index, 1);
+      render();
+    };
 
-            preview.appendChild(div);
-        };
+    card.append(img, name, btn);
+    preview.appendChild(card);
+  });
 
-        reader.readAsDataURL(img);
-    });
-
-    Sortable.create(preview, {
-        animation: 150,
-        handle: ".drag",
-        onEnd: (evt) => {
-            const [moved] = imagenes.splice(evt.oldIndex, 1);
-            imagenes.splice(evt.newIndex, 0, moved);
-        }
-    });
+  Sortable.create(preview, {
+    animation: 200,
+    onEnd: e => {
+      const moved = imagenes.splice(e.oldIndex, 1)[0];
+      imagenes.splice(e.newIndex, 0, moved);
+    }
+  });
 }
 
-btnConvertir.onclick = async () => {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
+btnGenerar.addEventListener("click", async () => {
+  if (imagenes.length === 0) return alert("Agrega imágenes");
 
-    for (let i = 0; i < imagenes.length; i++) {
-        const imgData = await cargarImagen(imagenes[i]);
-        const w = pdf.internal.pageSize.getWidth();
-        const h = pdf.internal.pageSize.getHeight();
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
 
-        pdf.addImage(imgData, "JPEG", 0, 0, w, h);
-        if (i < imagenes.length - 1) pdf.addPage();
-    }
+  for (let i = 0; i < imagenes.length; i++) {
+    const imgData = await toBase64(imagenes[i]);
+    if (i > 0) pdf.addPage();
+    pdf.addImage(imgData, "JPEG", 10, 10, 190, 260);
+  }
 
-    const nombre = nombrePdf.value.trim() || "imagenes";
-    pdf.save(`${nombre}.pdf`);
-};
+  const nombre = nombrePdfInput.value || "imagenes.pdf";
+  pdf.save(nombre);
+});
 
-function cargarImagen(archivo) {
-    return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.readAsDataURL(archivo);
-    });
+function toBase64(file) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
 }

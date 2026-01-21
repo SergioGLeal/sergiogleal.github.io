@@ -16,13 +16,14 @@ function renderPreview() {
 
     imagenes.forEach((img, index) => {
         const reader = new FileReader();
-
         reader.onload = () => {
             const div = document.createElement("div");
             div.className = "preview-item";
+            div.dataset.index = index;
 
             div.innerHTML = `
                 <img src="${reader.result}">
+                <span>${index + 1}</span>
                 <button title="Eliminar">&times;</button>
             `;
 
@@ -33,9 +34,21 @@ function renderPreview() {
             };
 
             preview.appendChild(div);
-        };
 
+            makeSortable();
+        };
         reader.readAsDataURL(img);
+    });
+}
+
+function makeSortable() {
+    Sortable.create(preview, {
+        animation: 150,
+        onEnd: () => {
+            const items = Array.from(preview.children);
+            imagenes = items.map(item => imagenes[item.dataset.index]);
+            renderPreview();
+        }
     });
 }
 
@@ -45,18 +58,14 @@ btnConvertir.addEventListener("click", async () => {
 
     for (let i = 0; i < imagenes.length; i++) {
         const imgData = await cargarImagen(imagenes[i]);
-
         const w = pdf.internal.pageSize.getWidth();
         const h = pdf.internal.pageSize.getHeight();
 
         pdf.addImage(imgData, "JPEG", 0, 0, w, h);
-
-        if (i < imagenes.length - 1) {
-            pdf.addPage();
-        }
+        if (i < imagenes.length - 1) pdf.addPage();
     }
 
-    const nombre = nombrePdfInput.value.trim() || "imagenes";
+    const nombre = nombrePdfInput.value.trim() || "documento";
     pdf.save(`${nombre}.pdf`);
 });
 

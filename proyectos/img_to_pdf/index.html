@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Imagen a PDF | Sergio Leal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Imagen a PDF</h1>
+        <p>Convierte imágenes en un solo archivo PDF</p>
+    </header>
+
+    <main>
+        <input type="file" id="input-imagenes" multiple accept="image/*">
+
+        <button id="btn-convertir">
+            Convertir a PDF
+        </button>
+    </main>
+
+    <footer>
+        <p>Proyecto de portafolio · Sergio Antonio González Leal</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>

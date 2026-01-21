@@ -1,49 +1,36 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Imagen a PDF | Sergio Leal</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<main class="layout">
 
-    <!-- Fuente -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- PANEL IZQUIERDO -->
+    <section class="panel">
+        <h2>Imágenes a PDF</h2>
+        <p class="hint">Agrega imágenes y ordénalas antes de convertir</p>
 
-    <!-- Estilos -->
-    <link rel="stylesheet" href="styles.css">
+        <!-- input oculto -->
+        <input type="file" id="input-imagenes" multiple accept="image/*" hidden>
 
-    <!-- jsPDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <button id="btn-agregar" class="btn-primary">
+            ➕ Agregar imágenes
+        </button>
 
-    <!-- SortableJS -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-</head>
-<body>
+        <input
+            type="text"
+            id="nombre-pdf"
+            placeholder="Nombre del PDF (opcional)"
+        >
 
-<header>
-    <h1>Imagen a PDF</h1>
-    <p>Organiza, vista previa y descarga tu PDF</p>
-</header>
+        <button id="btn-convertir" disabled class="btn-success">
+            Generar PDF
+        </button>
+    </section>
 
-<main class="card">
-    <input type="file" id="input-imagenes" multiple accept="image/*">
+    <!-- PANEL DERECHO -->
+    <section class="preview-panel">
+        <div class="preview-header">
+            <span>Imágenes</span>
+            <span class="drag-hint">⠿ Arrastra para ordenar</span>
+        </div>
 
-    <input 
-        type="text" 
-        id="nombre-pdf" 
-        placeholder="Nombre del PDF (opcional)"
-    >
+        <div id="preview" class="preview"></div>
+    </section>
 
-    <div id="preview" class="preview"></div>
-
-    <button id="btn-convertir" disabled>
-        📄 Generar PDF
-    </button>
 </main>
-
-<footer>
-    <p>Proyecto de portafolio · Sergio Antonio González Leal</p>
-</footer>
-
-<script src="app.js"></script>
-</body>
-</html>

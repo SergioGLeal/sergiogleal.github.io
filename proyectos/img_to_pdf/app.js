@@ -1,12 +1,16 @@
-const inputImagenes = document.getElementById("input-imagenes");
+const input = document.getElementById("input-imagenes");
+const btnAgregar = document.getElementById("btn-agregar");
 const preview = document.getElementById("preview");
 const btnConvertir = document.getElementById("btn-convertir");
-const nombrePdfInput = document.getElementById("nombre-pdf");
+const nombrePdf = document.getElementById("nombre-pdf");
 
 let imagenes = [];
 
-inputImagenes.addEventListener("change", () => {
-    imagenes = Array.from(inputImagenes.files);
+btnAgregar.onclick = () => input.click();
+
+input.addEventListener("change", () => {
+    imagenes.push(...Array.from(input.files));
+    input.value = ""; // MUY IMPORTANTE
     renderPreview();
     btnConvertir.disabled = imagenes.length === 0;
 });
@@ -23,8 +27,9 @@ function renderPreview() {
 
             div.innerHTML = `
                 <img src="${reader.result}">
-                <span>${index + 1}</span>
-                <button title="Eliminar">&times;</button>
+                <span class="filename">${img.name}</span>
+                <span class="drag">⠿</span>
+                <button>&times;</button>
             `;
 
             div.querySelector("button").onclick = () => {
@@ -34,45 +39,16 @@ function renderPreview() {
             };
 
             preview.appendChild(div);
-
-            makeSortable();
         };
         reader.readAsDataURL(img);
     });
-}
 
-function makeSortable() {
     Sortable.create(preview, {
         animation: 150,
-        onEnd: () => {
-            const items = Array.from(preview.children);
-            imagenes = items.map(item => imagenes[item.dataset.index]);
-            renderPreview();
+        handle: ".drag",
+        onEnd: evt => {
+            const [moved] = imagenes.splice(evt.oldIndex, 1);
+            imagenes.splice(evt.newIndex, 0, moved);
         }
-    });
-}
-
-btnConvertir.addEventListener("click", async () => {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF();
-
-    for (let i = 0; i < imagenes.length; i++) {
-        const imgData = await cargarImagen(imagenes[i]);
-        const w = pdf.internal.pageSize.getWidth();
-        const h = pdf.internal.pageSize.getHeight();
-
-        pdf.addImage(imgData, "JPEG", 0, 0, w, h);
-        if (i < imagenes.length - 1) pdf.addPage();
-    }
-
-    const nombre = nombrePdfInput.value.trim() || "documento";
-    pdf.save(`${nombre}.pdf`);
-});
-
-function cargarImagen(archivo) {
-    return new Promise(resolve => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.readAsDataURL(archivo);
     });
 }

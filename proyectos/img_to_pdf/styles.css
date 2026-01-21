@@ -3,25 +3,39 @@
     font-family: 'Inter', sans-serif;
 }
 
+/* ===== FONDO GENERAL ===== */
 body {
     margin: 0;
-    background: linear-gradient(135deg, #eef2ff, #f8fafc);
-    color: #212529;
+    background: linear-gradient(
+        135deg,
+        #4f46e5 0%,
+        #6366f1 30%,
+        #8b5cf6 60%,
+        #a78bfa 100%
+    );
+    color: #1f2933;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+/* ===== HEADER ===== */
 header {
     text-align: center;
     padding: 35px 20px;
+    color: #ffffff;
 }
 
 header h1 {
-    margin-bottom: 8px;
+    margin-bottom: 6px;
 }
 
+header p {
+    opacity: 0.85;
+}
+
+/* ===== LAYOUT ===== */
 .layout {
     display: grid;
     grid-template-columns: 320px 1fr;
@@ -30,24 +44,19 @@ header h1 {
     max-width: 1100px;
 }
 
-/* PANELES */
+/* ===== PANELES ===== */
 .panel,
 .preview-panel {
     background: #ffffff;
     padding: 25px;
     border-radius: 18px;
-    box-shadow: 0 10px 25px rgba(0,0,0,.08);
-    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 15px 35px rgba(0,0,0,.18);
 }
 
-.panel:hover,
-.preview-panel:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 35px rgba(0,0,0,.12);
-}
-
+/* ===== PANEL IZQUIERDO ===== */
 .panel h2 {
     margin-top: 0;
+    color: #111827;
 }
 
 .hint {
@@ -56,17 +65,17 @@ header h1 {
     margin-bottom: 20px;
 }
 
-/* INPUT */
+/* ===== INPUT ===== */
 input[type="text"] {
     width: 100%;
-    padding: 11px;
+    padding: 12px;
     margin: 15px 0;
     border-radius: 10px;
-    border: 1px solid #ced4da;
+    border: 1px solid #d1d5db;
     font-size: 14px;
 }
 
-/* BOTONES */
+/* ===== BOTONES ===== */
 .btn-primary,
 .btn-success {
     width: 100%;
@@ -75,28 +84,27 @@ input[type="text"] {
     border-radius: 12px;
     font-size: 15px;
     cursor: pointer;
+    color: white;
     transition: transform .15s, box-shadow .15s;
 }
 
 .btn-primary {
     background: linear-gradient(135deg, #4f46e5, #6366f1);
-    color: white;
     margin-bottom: 15px;
 }
 
 .btn-success {
     background: linear-gradient(135deg, #16a34a, #22c55e);
-    color: white;
 }
 
 .btn-primary:hover,
 .btn-success:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,.2);
+    box-shadow: 0 8px 20px rgba(0,0,0,.25);
 }
 
 .btn-success:disabled {
-    background: #adb5bd;
+    background: linear-gradient(135deg, #9ca3af, #d1d5db);
     cursor: not-allowed;
     box-shadow: none;
 }
@@ -106,50 +114,54 @@ input[type="text"] {
     margin-right: 8px;
 }
 
-/* PREVIEW */
+/* ===== PREVIEW HEADER ===== */
 .preview-header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     font-size: 14px;
     color: #6b7280;
 }
 
+/* ===== LISTA ===== */
 .preview {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-/* ITEMS */
+/* ===== ITEMS ===== */
 .preview-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: #f8fafc;
+    background: linear-gradient(135deg, #eef2ff, #f8fafc);
     padding: 12px;
     border-radius: 12px;
     border: 1px solid #e5e7eb;
     cursor: grab;
-    transition: background .2s, transform .15s, box-shadow .15s;
+    transition: transform .15s, box-shadow .15s, background .2s;
 }
 
 .preview-item:hover {
-    background: #eef2ff;
+    background: linear-gradient(135deg, #e0e7ff, #f1f5f9);
     transform: scale(1.01);
-    box-shadow: 0 6px 14px rgba(0,0,0,.08);
+    box-shadow: 0 8px 18px rgba(0,0,0,.12);
 }
 
 .preview-item:active {
     cursor: grabbing;
 }
 
+/* indicador de drag */
 .preview-item::before {
     content: "⠿";
     font-size: 18px;
-    opacity: .4;
+    opacity: .45;
+    color: #4f46e5;
 }
 
+/* ===== IMAGEN ===== */
 .preview-item img {
     width: 60px;
     height: 60px;
@@ -157,28 +169,32 @@ input[type="text"] {
     border-radius: 8px;
 }
 
+/* ===== NOMBRE ===== */
 .filename {
     flex: 1;
     font-size: 14px;
+    color: #1f2937;
     word-break: break-all;
 }
 
+/* ===== ELIMINAR ===== */
 .preview-item button {
     background: none;
     border: none;
-    color: #e03131;
+    color: #ef4444;
     font-size: 22px;
     cursor: pointer;
 }
 
 .preview-item button:hover {
-    color: #c92a2a;
+    color: #b91c1c;
 }
 
-/* FOOTER */
+/* ===== FOOTER ===== */
 footer {
     margin-top: auto;
     padding: 25px;
     font-size: 14px;
-    opacity: .7;
+    color: #ffffff;
+    opacity: .8;
 }

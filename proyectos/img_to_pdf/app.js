@@ -4,9 +4,11 @@ const btnConvertir = document.getElementById("btn-convertir");
 const btnOrdenarNombre = document.getElementById("btn-ordenar-nombre");
 const preview = document.getElementById("preview");
 const nombrePdf = document.getElementById("nombre-pdf");
+const emptyState = document.getElementById("empty-state");
 
 let imagenes = [];
 let ordenAZ = true;
+let sortableInstance = null;
 
 /* ABRIR SELECTOR */
 btnAgregar.addEventListener("click", () => {
@@ -44,6 +46,15 @@ function actualizarBotonOrden() {
 function render() {
     preview.innerHTML = "";
 
+    if (imagenes.length === 0) {
+        emptyState.style.display = "flex";
+        btnConvertir.disabled = true;
+        destruirDrag();
+        return;
+    }
+
+    emptyState.style.display = "none";
+
     imagenes.forEach((file, index) => {
         const item = document.createElement("div");
         item.className = "preview-item";
@@ -67,14 +78,15 @@ function render() {
         preview.appendChild(item);
     });
 
-    btnConvertir.disabled = imagenes.length === 0;
-
+    btnConvertir.disabled = false;
     activarDrag();
 }
 
 /* DRAG & DROP (SIEMPRE ACTIVO) */
 function activarDrag() {
-    Sortable.create(preview, {
+    destruirDrag();
+
+    sortableInstance = Sortable.create(preview, {
         animation: 180,
         onEnd: () => {
             const nuevoOrden = [];
@@ -82,8 +94,16 @@ function activarDrag() {
                 nuevoOrden.push(imagenes[item.dataset.index]);
             });
             imagenes = nuevoOrden;
+            render();
         }
     });
+}
+
+function destruirDrag() {
+    if (sortableInstance) {
+        sortableInstance.destroy();
+        sortableInstance = null;
+    }
 }
 
 /* GENERAR PDF */
@@ -108,3 +128,7 @@ function toBase64(file) {
         reader.readAsDataURL(file);
     });
 }
+
+/* INICIAL */
+actualizarBotonOrden();
+render();

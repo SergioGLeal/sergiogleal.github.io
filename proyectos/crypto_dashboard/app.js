@@ -53,25 +53,28 @@ function mostrarTabla(lista) {
     tablaBody.innerHTML = "";
 
     lista.forEach((coin, index) => {
-        const fila = document.createElement("tr");
-        fila.classList.add("fade-in-row");
+    const cambio = coin.price_change_percentage_24h ?? 0;
 
-        fila.innerHTML = `
-            <td>${index + 1}</td>
-            <td class="moneda">
-                <img src="${coin.image}">
-                ${coin.name} (${coin.symbol.toUpperCase()})
-            </td>
-            <td>$${coin.current_price.toLocaleString()}</td>
-            <td class="${coin.price_change_percentage_24h >= 0 ? "subio" : "bajo"}">
-                ${coin.price_change_percentage_24h.toFixed(2)}%
-            </td>
-            <td>$${coin.market_cap.toLocaleString()}</td>
-        `;
+    const fila = document.createElement("tr");
+    fila.classList.add("fade-in-row");
 
-        fila.onclick = () => mostrarDetalles(coin.id);
-        tablaBody.appendChild(fila);
-    });
+    fila.innerHTML = `
+        <td>${index + 1}</td>
+        <td class="moneda">
+            <img src="${coin.image}">
+            ${coin.name} (${coin.symbol.toUpperCase()})
+        </td>
+        <td>$${coin.current_price.toLocaleString()}</td>
+        <td class="${cambio >= 0 ? "subio" : "bajo"}">
+            ${cambio.toFixed(2)}%
+        </td>
+        <td>$${coin.market_cap.toLocaleString()}</td>
+    `;
+
+    fila.onclick = () => mostrarDetalles(coin.id);
+    tablaBody.appendChild(fila);
+});
+
 }
 
 // =======================================================

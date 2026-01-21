@@ -198,3 +198,13 @@ footer {
     color: #ffffff;
     opacity: .8;
 }
+.ordenar-select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    margin-bottom: 15px;
+    background: white;
+}
+

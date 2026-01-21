@@ -1,22 +1,42 @@
 const inputImagenes = document.getElementById("input-imagenes");
 const btnAgregar = document.getElementById("btn-agregar");
 const btnConvertir = document.getElementById("btn-convertir");
+const selectOrdenar = document.getElementById("ordenar");
 const preview = document.getElementById("preview");
 const nombrePdf = document.getElementById("nombre-pdf");
 
 let imagenes = [];
+let sortableInstance = null;
 
 /* ABRIR SELECTOR */
 btnAgregar.addEventListener("click", () => {
     inputImagenes.click();
 });
 
-/* AGREGAR IMÁGENES (SIN REEMPLAZAR) */
+/* AGREGAR IMÁGENES */
 inputImagenes.addEventListener("change", () => {
     [...inputImagenes.files].forEach(img => imagenes.push(img));
-    render();
+    aplicarOrden();
     inputImagenes.value = "";
 });
+
+/* CAMBIO DE ORDEN */
+selectOrdenar.addEventListener("change", () => {
+    aplicarOrden();
+});
+
+/* APLICAR ORDEN */
+function aplicarOrden() {
+    const tipo = selectOrdenar.value;
+
+    if (tipo === "az") {
+        imagenes.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (tipo === "za") {
+        imagenes.sort((a, b) => b.name.localeCompare(a.name));
+    }
+
+    render();
+}
 
 /* RENDER */
 function render() {
@@ -25,6 +45,7 @@ function render() {
     imagenes.forEach((file, index) => {
         const item = document.createElement("div");
         item.className = "preview-item";
+        item.dataset.index = index;
 
         const img = document.createElement("img");
         img.src = URL.createObjectURL(file);
@@ -46,9 +67,22 @@ function render() {
 
     btnConvertir.disabled = imagenes.length === 0;
 
-    Sortable.create(preview, {
-        animation: 180
-    });
+    /* DRAG & DROP SOLO EN MODO MANUAL */
+    if (sortableInstance) sortableInstance.destroy();
+
+    if (selectOrdenar.value === "manual") {
+        sortableInstance = Sortable.create(preview, {
+            animation: 180,
+            onEnd: () => {
+                const nuevoOrden = [];
+                preview.querySelectorAll(".preview-item").forEach(item => {
+                    nuevoOrden.push(imagenes[item.dataset.index]);
+                });
+                imagenes = nuevoOrden;
+                render();
+            }
+        });
+    }
 }
 
 /* GENERAR PDF */

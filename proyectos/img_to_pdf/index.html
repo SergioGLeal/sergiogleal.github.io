@@ -46,12 +46,6 @@
             placeholder="Nombre del PDF (opcional)"
         >
 
-        <select id="ordenar" class="ordenar-select">
-        <option value="manual">Orden manual</option>
-        <option value="az">Nombre (A → Z)</option>
-        <option value="za">Nombre (Z → A)</option>
-    </select>
-
         <button id="btn-convertir" class="btn-success" disabled>
             <i class="fa-solid fa-file-pdf"></i> Generar PDF
         </button>
@@ -60,12 +54,20 @@
     <!-- PANEL DERECHO -->
     <section class="preview-panel">
         <div class="preview-header">
-            <span>Imágenes</span>
+        <span>Imágenes</span>
+
+        <div class="preview-actions">
+            <button id="btn-ordenar-nombre" class="btn-sort">
+                <i class="fa-solid fa-arrow-down-a-z"></i> A–Z
+            </button>
+
             <span class="drag-hint">
                 <i class="fa-solid fa-arrows-up-down-left-right"></i>
                 Arrastra para ordenar
             </span>
         </div>
+    </div>
+
 
         <div id="preview" class="preview"></div>
     </section>

@@ -1,12 +1,12 @@
 const inputImagenes = document.getElementById("input-imagenes");
 const btnAgregar = document.getElementById("btn-agregar");
 const btnConvertir = document.getElementById("btn-convertir");
-const selectOrdenar = document.getElementById("ordenar");
+const btnOrdenarNombre = document.getElementById("btn-ordenar-nombre");
 const preview = document.getElementById("preview");
 const nombrePdf = document.getElementById("nombre-pdf");
 
 let imagenes = [];
-let sortableInstance = null;
+let ordenAZ = true;
 
 /* ABRIR SELECTOR */
 btnAgregar.addEventListener("click", () => {
@@ -16,26 +16,28 @@ btnAgregar.addEventListener("click", () => {
 /* AGREGAR IMÁGENES */
 inputImagenes.addEventListener("change", () => {
     [...inputImagenes.files].forEach(img => imagenes.push(img));
-    aplicarOrden();
+    render();
     inputImagenes.value = "";
 });
 
-/* CAMBIO DE ORDEN */
-selectOrdenar.addEventListener("change", () => {
-    aplicarOrden();
+/* ORDENAR POR NOMBRE (TOGGLE) */
+btnOrdenarNombre.addEventListener("click", () => {
+    imagenes.sort((a, b) =>
+        ordenAZ
+            ? a.name.localeCompare(b.name)
+            : b.name.localeCompare(a.name)
+    );
+
+    ordenAZ = !ordenAZ;
+    actualizarBotonOrden();
+    render();
 });
 
-/* APLICAR ORDEN */
-function aplicarOrden() {
-    const tipo = selectOrdenar.value;
-
-    if (tipo === "az") {
-        imagenes.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (tipo === "za") {
-        imagenes.sort((a, b) => b.name.localeCompare(a.name));
-    }
-
-    render();
+/* ACTUALIZAR TEXTO / ICONO */
+function actualizarBotonOrden() {
+    btnOrdenarNombre.innerHTML = ordenAZ
+        ? `<i class="fa-solid fa-arrow-down-a-z"></i> A–Z`
+        : `<i class="fa-solid fa-arrow-down-z-a"></i> Z–A`;
 }
 
 /* RENDER */
@@ -67,22 +69,21 @@ function render() {
 
     btnConvertir.disabled = imagenes.length === 0;
 
-    /* DRAG & DROP SOLO EN MODO MANUAL */
-    if (sortableInstance) sortableInstance.destroy();
+    activarDrag();
+}
 
-    if (selectOrdenar.value === "manual") {
-        sortableInstance = Sortable.create(preview, {
-            animation: 180,
-            onEnd: () => {
-                const nuevoOrden = [];
-                preview.querySelectorAll(".preview-item").forEach(item => {
-                    nuevoOrden.push(imagenes[item.dataset.index]);
-                });
-                imagenes = nuevoOrden;
-                render();
-            }
-        });
-    }
+/* DRAG & DROP (SIEMPRE ACTIVO) */
+function activarDrag() {
+    Sortable.create(preview, {
+        animation: 180,
+        onEnd: () => {
+            const nuevoOrden = [];
+            preview.querySelectorAll(".preview-item").forEach(item => {
+                nuevoOrden.push(imagenes[item.dataset.index]);
+            });
+            imagenes = nuevoOrden;
+        }
+    });
 }
 
 /* GENERAR PDF */

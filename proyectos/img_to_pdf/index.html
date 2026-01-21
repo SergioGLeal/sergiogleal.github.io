@@ -1,35 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Imágenes a PDF</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 </head>
 <body>
 
-  <main class="container">
-    <h1>Convertir imágenes a PDF</h1>
-    <p class="subtitle">Arrastra las imágenes para ordenar el PDF</p>
+  <div class="app">
+    <!-- PANEL IZQUIERDO -->
+    <aside class="sidebar">
+      <h2>Opciones</h2>
 
-    <label class="upload-btn">
-      📁 Seleccionar imágenes
-      <input type="file" id="inputImagenes" accept="image/*" multiple hidden>
-    </label>
+      <label class="upload-btn">
+        ➕ Agregar imágenes
+        <input type="file" id="inputImagenes" accept="image/*" multiple hidden>
+      </label>
 
-    <input
-      type="text"
-      id="nombrePdf"
-      placeholder="Nombre del PDF (ej. documentos.pdf)"
-    />
+      <input
+        type="text"
+        id="nombrePdf"
+        placeholder="Nombre del PDF"
+      />
 
-    <div id="preview" class="preview"></div>
+      <button id="btnGenerar" class="generate-btn">
+        📄 Generar PDF
+      </button>
+    </aside>
 
-    <button id="btnGenerar" class="generate-btn">
-      📄 Generar PDF
-    </button>
-  </main>
+    <!-- PANEL DERECHO -->
+    <section class="content">
+      <div class="content-header">
+        <h2>Imágenes</h2>
+        <span class="hint">⠿ Arrastra para ordenar</span>
+      </div>
+
+      <div id="preview" class="preview"></div>
+    </section>
+  </div>
 
   <script src="app.js"></script>
 </body>

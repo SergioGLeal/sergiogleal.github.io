@@ -6,9 +6,7 @@ const nombrePdfInput = document.getElementById("nombrePdf");
 let imagenes = [];
 
 input.addEventListener("change", () => {
-  [...input.files].forEach(file => {
-    imagenes.push(file);
-  });
+  [...input.files].forEach(file => imagenes.push(file));
   render();
   input.value = "";
 });
@@ -41,15 +39,12 @@ function render() {
 
   Sortable.create(preview, {
     animation: 200,
-    onEnd: e => {
-      const moved = imagenes.splice(e.oldIndex, 1)[0];
-      imagenes.splice(e.newIndex, 0, moved);
-    }
+    ghostClass: "dragging"
   });
 }
 
 btnGenerar.addEventListener("click", async () => {
-  if (imagenes.length === 0) return alert("Agrega imágenes");
+  if (!imagenes.length) return alert("Agrega imágenes");
 
   const { jsPDF } = window.jspdf;
   const pdf = new jsPDF();
@@ -60,8 +55,7 @@ btnGenerar.addEventListener("click", async () => {
     pdf.addImage(imgData, "JPEG", 10, 10, 190, 260);
   }
 
-  const nombre = nombrePdfInput.value || "imagenes.pdf";
-  pdf.save(nombre);
+  pdf.save(nombrePdfInput.value || "imagenes.pdf");
 });
 
 function toBase64(file) {

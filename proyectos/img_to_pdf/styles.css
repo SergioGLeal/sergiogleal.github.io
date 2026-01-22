@@ -46,13 +46,57 @@ header p {
     padding: 0 10px;
 }
 
-/* ===== PANELES ===== */
+/* ===== PANELES GENERALES ===== */
 .panel,
 .preview-panel {
     background: #ffffff;
     padding: 20px 16px;
     border-radius: 16px;
     box-shadow: 0 15px 35px rgba(0,0,0,.18);
+}
+
+/* ===== PANEL DE OPCIONES (mejor estructura) ===== */
+.opciones-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;           /* espacio entre todos los elementos hijos */
+}
+
+.opciones-panel h2 {
+    margin: 0;
+}
+
+.opciones-panel .hint {
+    margin: 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+/* Input nombre PDF - restaurado y mejorado */
+.opciones-panel input[type="text"] {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 15px;
+    background: #f9fafb;
+    color: #1f2937;
+    transition: border-color 0.2s;
+}
+
+.opciones-panel input[type="text"]:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* Botones en el panel de opciones */
+.opciones-panel .btn-primary {
+    margin: 0;           /* quitamos margen que sobraba */
+}
+
+.opciones-panel .btn-success {
+    margin-top: 4px;     /* pequeño respiro antes del botón principal */
 }
 
 /* ============================================= */
@@ -67,6 +111,7 @@ header p {
     .opciones-panel {
         flex: 0 0 320px;
         max-width: 340px;
+        gap: 18px;           /* un poco menos gap en desktop para que quede elegante */
     }
 
     .preview-panel {
@@ -78,8 +123,17 @@ header p {
         padding: 25px;
     }
 
+    .opciones-panel input[type="text"] {
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+
     header {
         padding: 35px 20px;
+    }
+
+    .opciones-panel .btn-primary {
+        margin-bottom: 12px;
     }
 }
 
@@ -100,9 +154,13 @@ header p {
         font-size: 1.1rem;
     }
 
-    input[type="text"] {
-        padding: 14px;
-        font-size: 1rem;
+    .opciones-panel {
+        gap: 24px;           /* más aire en móvil */
+    }
+
+    .opciones-panel input[type="text"] {
+        padding: 16px;
+        font-size: 1.05rem;
     }
 
     /* Lista más amigable en móvil */
@@ -152,7 +210,7 @@ header p {
     }
 }
 
-/* ===== BOTONES ===== */
+/* ===== BOTONES (estilos generales) ===== */
 .btn-primary,
 .btn-success {
     width: 100%;
@@ -167,7 +225,6 @@ header p {
 
 .btn-primary {
     background: linear-gradient(135deg, #4f46e5, #6366f1);
-    margin-bottom: 15px;
 }
 
 .btn-success {
@@ -191,7 +248,8 @@ header p {
     margin-right: 8px;
 }
 
-/* ===== PREVIEW HEADER ===== */
+/* Resto del CSS sin cambios importantes ====================== */
+
 .preview-header {
     display: flex;
     justify-content: space-between;
@@ -209,14 +267,12 @@ header p {
     gap: 12px;
 }
 
-/* ===== LISTA ===== */
 .preview {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-/* ===== ITEMS ===== */
 .preview-item {
     display: flex;
     align-items: center;
@@ -246,7 +302,6 @@ header p {
     color: #4f46e5;
 }
 
-/* ===== IMAGEN ===== */
 .preview-item img {
     width: 60px;
     height: 60px;
@@ -254,7 +309,6 @@ header p {
     border-radius: 8px;
 }
 
-/* ===== NOMBRE ===== */
 .filename {
     flex: 1;
     font-size: 14px;
@@ -262,7 +316,6 @@ header p {
     word-break: break-all;
 }
 
-/* ===== ELIMINAR ===== */
 .preview-item button {
     background: none;
     border: none;
@@ -275,7 +328,6 @@ header p {
     color: #b91c1c;
 }
 
-/* ===== FOOTER ===== */
 footer {
     margin-top: auto;
     padding: 25px;
@@ -284,7 +336,6 @@ footer {
     opacity: .8;
 }
 
-/* ===== ESTADO VACÍO ===== */
 .empty-state {
     height: 100%;
     min-height: 300px;

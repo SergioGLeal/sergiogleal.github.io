@@ -30,7 +30,7 @@
 <main class="layout">
 
     <!-- PANEL IZQUIERDO -->
-    <section class="panel">
+    <section class="panel opciones-panel">
         <h2>Opciones</h2>
         <p class="hint">Agrega imágenes y ordénalas antes de convertir</p>
 
@@ -54,29 +54,27 @@
     <!-- PANEL DERECHO -->
     <section class="preview-panel">
         <div class="preview-header">
-        <span>Imágenes</span>
+            <span>Imágenes</span>
 
-        <div class="preview-actions">
-            <button id="btn-ordenar-nombre" class="btn-sort">
-                <i class="fa-solid fa-arrow-down-a-z"></i> A–Z
-            </button>
+            <div class="preview-actions">
+                <button id="btn-ordenar-nombre" class="btn-sort">
+                    <i class="fa-solid fa-arrow-down-a-z"></i> A–Z
+                </button>
 
-            <span class="drag-hint">
-                <i class="fa-solid fa-arrows-up-down-left-right"></i>
-                Arrastra para ordenar
-            </span>
+                <span class="drag-hint">
+                    <i class="fa-solid fa-arrows-up-down-left-right"></i>
+                    Arrastra para ordenar
+                </span>
+            </div>
         </div>
-    </div>
-
 
         <div id="empty-state" class="empty-state">
-    <i class="fa-regular fa-images"></i>
-    <p>No hay imágenes cargadas</p>
-    <span>Agrega imágenes para comenzar</span>
-</div>
+            <i class="fa-regular fa-images"></i>
+            <p>No hay imágenes cargadas</p>
+            <span>Agrega imágenes para comenzar</span>
+        </div>
 
-<div id="preview" class="preview"></div>
-
+        <div id="preview" class="preview"></div>
     </section>
 
 </main>

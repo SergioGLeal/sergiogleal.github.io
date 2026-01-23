@@ -1,100 +1,184 @@
-:root {
-    --alta: #ff6b6b;
-    --media: #feca57;
-    --baja: #1dd1a1;
-    --fondo: #f5f7fa;
-}
-
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
 }
 
 body {
-    margin: 0;
-    background: var(--fondo);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+    color: #333;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 header {
     text-align: center;
-    padding: 20px;
+    margin-bottom: 40px;
+    animation: fadeIn 1s ease;
 }
 
-.board {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
+header h1 {
+    font-size: 2.8rem;
+    color: #0d47a1;
+    margin-bottom: 8px;
 }
 
-.nueva {
+header p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+form {
     display: flex;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 12px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.nueva input,
-.nueva select,
-.nueva button {
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
+input, select {
+    padding: 12px 16px;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+    flex: 1;
+    min-width: 200px;
+    transition: border 0.3s;
 }
 
-.nueva button {
-    background: #4b7bec;
+input:focus, select:focus {
+    border-color: #2196f3;
+    outline: none;
+}
+
+button {
+    padding: 12px 24px;
+    background: linear-gradient(90deg, #2196f3, #42a5f5);
     color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.tareas {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(33,150,243,0.4);
 }
 
-.card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,.08);
-    animation: aparecer .3s ease;
-}
-
-.card.alta { border-left: 6px solid var(--alta); }
-.card.media { border-left: 6px solid var(--media); }
-.card.baja { border-left: 6px solid var(--baja); }
-
-.card h3 {
-    margin: 0 0 10px;
-}
-
-.card .acciones {
+.kanban-board {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px 0;
 }
 
-.card button {
+.kanban-column {
+    min-width: 320px;
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+}
+
+.kanban-column:hover {
+    transform: translateY(-5px);
+}
+
+.kanban-column h2 {
+    text-align: center;
+    margin-bottom: 16px;
+    font-size: 1.4rem;
+    color: #0d47a1;
+}
+
+.task-list {
+    min-height: 300px;
+    padding: 10px;
+    border: 2px dashed #ccc;
+    border-radius: 12px;
+    background: #f9f9f9;
+}
+
+.task-item {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    transition: all 0.3s;
+    opacity: 0;
+    animation: slideIn 0.5s forwards;
+}
+
+.task-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.task-info {
+    flex: 1;
+}
+
+.task-info strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.prioridad {
+    font-size: 0.85rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+}
+
+.prioridad.alta { background: #f44336; }
+.prioridad.media { background: #ff9800; }
+.prioridad.baja { background: #4caf50; }
+
+.botones button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 1.3rem;
+    margin-left: 8px;
+    transition: color 0.2s;
 }
 
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.botones button:hover {
+    color: #f44336;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-    .nueva {
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .kanban-board {
         flex-direction: column;
+    }
+    .kanban-column {
+        min-width: 100%;
     }
 }

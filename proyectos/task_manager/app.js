@@ -1,73 +1,121 @@
 const formulario = document.getElementById("formulario");
-const contenedor = document.getElementById("tareas");
+const listaTareasTodo = document.getElementById("lista-tareas-todo");
+const listaTareasInProgress = document.getElementById("lista-tareas-in-progress");
+const listaTareasDone = document.getElementById("lista-tareas-done");
 
-document.addEventListener("DOMContentLoaded", renderizar);
-formulario.addEventListener("submit", agregar);
+const listas = {
+    todo: listaTareasTodo,
+    "in-progress": listaTareasInProgress,
+    done: listaTareasDone
+};
 
-function agregar(e) {
+document.addEventListener("DOMContentLoaded", () => {
+    mostrarTareas();
+    inicializarDragAndDrop();
+});
+
+formulario.addEventListener("submit", agregarTarea);
+
+function agregarTarea(e) {
     e.preventDefault();
 
-    const titulo = document.getElementById("titulo").value;
+    const titulo = document.getElementById("titulo").value.trim();
     const prioridad = document.getElementById("prioridad").value;
 
-    const tareas = obtener();
-    tareas.push({
+    if (!titulo) return;
+
+    const tarea = {
         id: Date.now(),
         titulo,
-        prioridad
-    });
+        prioridad,
+        status: "todo" // Empieza en To Do
+    };
 
-    guardar(tareas);
+    const tareas = obtenerTareas();
+    tareas.push(tarea);
+    guardarTareas(tareas);
+
     formulario.reset();
-    renderizar();
+    mostrarTareas();
 }
 
-function renderizar() {
-    contenedor.innerHTML = "";
-    obtener().forEach(t => contenedor.appendChild(crearCard(t)));
+function mostrarTareas() {
+    Object.values(listas).forEach(lista => lista.innerHTML = "");
+
+    const tareas = obtenerTareas();
+
+    tareas.forEach(tarea => {
+        const li = crearTareaElemento(tarea);
+        listas[tarea.status].appendChild(li);
+    });
 }
 
-function crearCard(tarea) {
-    const div = document.createElement("div");
-    div.className = `card ${tarea.prioridad}`;
+function crearTareaElemento(tarea) {
+    const li = document.createElement("li");
+    li.classList.add("task-item");
+    li.draggable = true;
+    li.dataset.id = tarea.id;
+    li.dataset.status = tarea.status;
 
-    div.innerHTML = `
-        <h3>${tarea.titulo}</h3>
-        <small>Prioridad: ${tarea.prioridad}</small>
-        <div class="acciones">
-            <button onclick="editar(${tarea.id})">
-                <i class="fas fa-pen"></i>
-            </button>
-            <button onclick="eliminar(${tarea.id})">
-                <i class="fas fa-trash"></i>
-            </button>
+    li.innerHTML = `
+        <div class="task-info">
+            <strong>${tarea.titulo}</strong>
+            <span class="prioridad ${tarea.prioridad.toLowerCase()}">Prioridad: ${tarea.prioridad}</span>
+        </div>
+        <div class="botones">
+            <button onclick="editarTarea(${tarea.id})"><i class="bi bi-pencil-square"></i></button>
+            <button onclick="eliminarTarea(${tarea.id})"><i class="bi bi-trash"></i></button>
         </div>
     `;
 
-    return div;
+    return li;
 }
 
-function editar(id) {
-    const tareas = obtener();
+function editarTarea(id) {
+    const tareas = obtenerTareas();
     const tarea = tareas.find(t => t.id === id);
-    const nuevo = prompt("Editar tarea", tarea.titulo);
-
-    if (nuevo) {
-        tarea.titulo = nuevo;
-        guardar(tareas);
-        renderizar();
+    const nuevoTitulo = prompt("Editar tarea:", tarea.titulo);
+    if (nuevoTitulo !== null && nuevoTitulo.trim()) {
+        tarea.titulo = nuevoTitulo.trim();
+        guardarTareas(tareas);
+        mostrarTareas();
     }
 }
 
-function eliminar(id) {
-    guardar(obtener().filter(t => t.id !== id));
-    renderizar();
+function eliminarTarea(id) {
+    let tareas = obtenerTareas();
+    tareas = tareas.filter(t => t.id !== id);
+    guardarTareas(tareas);
+    mostrarTareas();
 }
 
-function obtener() {
+function inicializarDragAndDrop() {
+    Object.values(listas).forEach(lista => {
+        lista.addEventListener("dragover", e => e.preventDefault());
+        lista.addEventListener("drop", e => {
+            e.preventDefault();
+            const id = e.dataTransfer.getData("text/plain");
+            const tarea = obtenerTareas().find(t => t.id == id);
+            if (tarea) {
+                tarea.status = e.target.closest(".kanban-column").dataset.status;
+                guardarTareas(obtenerTareas());
+                mostrarTareas();
+            }
+        });
+    });
+
+    document.querySelectorAll(".task-item").forEach(item => {
+        item.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text/plain", item.dataset.id);
+        });
+    });
+}
+
+// Helpers localStorage
+function obtenerTareas() {
     return JSON.parse(localStorage.getItem("tareas")) || [];
 }
 
-function guardar(tareas) {
+function guardarTareas(tareas) {
     localStorage.setItem("tareas", JSON.stringify(tareas));
 }

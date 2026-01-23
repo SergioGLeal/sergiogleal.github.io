@@ -2,37 +2,45 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Task Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Icons -->
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+    <title>Gestor de Tareas - Kanban Board</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <header>
+            <h1>Gestor de Tareas</h1>
+            <p>Organiza tus proyectos como en un pizarrón Kanban</p>
+        </header>
 
-    <header>
-        <h1>📝 Task Board</h1>
-        <p>Organiza tus tareas de forma visual</p>
-    </header>
-
-    <main class="board">
-        <form id="formulario" class="card nueva">
+        <form id="formulario">
             <input type="text" id="titulo" placeholder="Nueva tarea..." required>
             <select id="prioridad">
-                <option value="alta">Alta</option>
-                <option value="media">Media</option>
-                <option value="baja">Baja</option>
+                <option value="Alta">Alta</option>
+                <option value="Media" selected>Media</option>
+                <option value="Baja">Baja</option>
             </select>
-            <button type="submit">
-                <i class="fas fa-plus"></i> Agregar
-            </button>
+            <button type="submit"><i class="bi bi-plus-lg"></i> Agregar</button>
         </form>
 
-        <section id="tareas" class="tareas"></section>
-    </main>
+        <div class="kanban-board">
+            <div class="kanban-column" id="todo" data-status="todo">
+                <h2><i class="bi bi-list-task"></i> To Do</h2>
+                <ul class="task-list" id="lista-tareas-todo"></ul>
+            </div>
+
+            <div class="kanban-column" id="in-progress" data-status="in-progress">
+                <h2><i class="bi bi-gear"></i> In Progress</h2>
+                <ul class="task-list" id="lista-tareas-in-progress"></ul>
+            </div>
+
+            <div class="kanban-column" id="done" data-status="done">
+                <h2><i class="bi bi-check2-circle"></i> Done</h2>
+                <ul class="task-list" id="lista-tareas-done"></ul>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
 </body>

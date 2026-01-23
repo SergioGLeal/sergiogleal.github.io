@@ -10,13 +10,22 @@ const listas = {
     "done":        listaDone
 };
 
+// Normalizar status para evitar inconsistencias
+function normalizarStatus(status) {
+    if (!status) return "todo";
+    const s = status.toLowerCase().trim();
+    if (s.includes("progress") || s === "in-progress") return "in-progress";
+    if (s.includes("done") || s === "completed") return "done";
+    return "todo";
+}
+
 // Cargar al inicio
 document.addEventListener("DOMContentLoaded", () => {
     mostrarTareas();
     inicializarDragAndDrop();
 });
 
-// Agregar nueva tarea
+// Agregar tarea
 formulario.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -32,7 +41,7 @@ formulario.addEventListener("submit", (e) => {
         id: Date.now(),
         titulo,
         prioridad,
-        status: "todo"  // siempre inicia en To Do
+        status: "todo"
     };
 
     const tareas = obtenerTareas();
@@ -43,23 +52,30 @@ formulario.addEventListener("submit", (e) => {
     mostrarTareas();
 });
 
-// Renderizar todas las tareas en sus columnas
+// Renderizar
 function mostrarTareas() {
-    // Limpiar todas las listas
-    Object.values(listas).forEach(lista => lista.innerHTML = "");
+    Object.values(listas).forEach(lista => {
+        if (lista) lista.innerHTML = "";
+    });
 
     const tareas = obtenerTareas();
 
     tareas.forEach(tarea => {
-        const li = crearElementoTarea(tarea);
-        listas[tarea.status].appendChild(li);
+        const statusNormal = normalizarStatus(tarea.status);
+        const lista = listas[statusNormal];
+
+        if (!lista) {
+            console.warn(`No se encontró columna para status: "${tarea.status}" → usando "todo"`);
+            listas["todo"]?.appendChild(crearElementoTarea(tarea));
+            return;
+        }
+
+        lista.appendChild(crearElementoTarea(tarea));
     });
 
-    // Re-inicializar drag después de renderizar (porque los elementos se recrean)
     inicializarDragAndDrop();
 }
 
-// Crear el HTML de cada tarea
 function crearElementoTarea(tarea) {
     const li = document.createElement("li");
     li.classList.add("task-item");
@@ -87,24 +103,22 @@ function crearElementoTarea(tarea) {
     return li;
 }
 
-// Editar tarea
+// Editar / Eliminar (sin cambios, pero con save + refresh)
 function editarTarea(id) {
     const tareas = obtenerTareas();
     const tarea = tareas.find(t => t.id === id);
     if (!tarea) return;
 
-    const nuevoTitulo = prompt("Editar tarea:", tarea.titulo);
-    if (nuevoTitulo !== null && nuevoTitulo.trim() !== "") {
-        tarea.titulo = nuevoTitulo.trim();
+    const nuevo = prompt("Editar tarea:", tarea.titulo);
+    if (nuevo !== null && nuevo.trim()) {
+        tarea.titulo = nuevo.trim();
         guardarTareas(tareas);
         mostrarTareas();
     }
 }
 
-// Eliminar tarea
 function eliminarTarea(id) {
-    if (!confirm("¿Seguro que quieres eliminar esta tarea?")) return;
-
+    if (!confirm("¿Eliminar esta tarea?")) return;
     let tareas = obtenerTareas();
     tareas = tareas.filter(t => t.id !== id);
     guardarTareas(tareas);
@@ -114,36 +128,27 @@ function eliminarTarea(id) {
 // Drag & Drop
 function inicializarDragAndDrop() {
     document.querySelectorAll(".task-item").forEach(item => {
-        item.addEventListener("dragstart", (e) => {
+        item.addEventListener("dragstart", e => {
             e.dataTransfer.setData("text/plain", item.dataset.id);
             item.classList.add("dragging");
         });
-
-        item.addEventListener("dragend", () => {
-            item.classList.remove("dragging");
-        });
+        item.addEventListener("dragend", () => item.classList.remove("dragging"));
     });
 
-    document.querySelectorAll(".kanban-column").forEach(columna => {
-        columna.addEventListener("dragover", (e) => {
+    document.querySelectorAll(".kanban-column").forEach(col => {
+        col.addEventListener("dragover", e => {
             e.preventDefault();
-            columna.classList.add("drag-over");
+            col.classList.add("drag-over");
         });
-
-        columna.addEventListener("dragleave", () => {
-            columna.classList.remove("drag-over");
-        });
-
-        columna.addEventListener("drop", (e) => {
+        col.addEventListener("dragleave", () => col.classList.remove("drag-over"));
+        col.addEventListener("drop", e => {
             e.preventDefault();
-            columna.classList.remove("drag-over");
-
+            col.classList.remove("drag-over");
             const id = e.dataTransfer.getData("text/plain");
             const tareas = obtenerTareas();
             const tarea = tareas.find(t => t.id == id);
-
             if (tarea) {
-                tarea.status = columna.dataset.status;
+                tarea.status = col.dataset.status;
                 guardarTareas(tareas);
                 mostrarTareas();
             }
@@ -151,7 +156,7 @@ function inicializarDragAndDrop() {
     });
 }
 
-// Helpers localStorage
+// localStorage
 function obtenerTareas() {
     return JSON.parse(localStorage.getItem("tareas") || "[]");
 }

@@ -1,80 +1,73 @@
 const formulario = document.getElementById("formulario");
-const listaTareas = document.getElementById("lista-tareas");
+const contenedor = document.getElementById("tareas");
 
-document.addEventListener("DOMContentLoaded", mostrarTareas);
-formulario.addEventListener("submit", agregarTarea);
+document.addEventListener("DOMContentLoaded", renderizar);
+formulario.addEventListener("submit", agregar);
 
-// CREATE
-function agregarTarea(e) {
+function agregar(e) {
     e.preventDefault();
 
     const titulo = document.getElementById("titulo").value;
     const prioridad = document.getElementById("prioridad").value;
 
-    const tarea = {
+    const tareas = obtener();
+    tareas.push({
         id: Date.now(),
         titulo,
         prioridad
-    };
-
-    const tareas = obtenerTareas();
-    tareas.push(tarea);
-    guardarTareas(tareas);
-
-    formulario.reset();
-    mostrarTareas();
-}
-
-// READ
-function mostrarTareas() {
-    listaTareas.innerHTML = "";
-
-    const tareas = obtenerTareas();
-
-    tareas.forEach(tarea => {
-        const li = document.createElement("li");
-
-        li.innerHTML = `
-            <div class="tarea-info">
-                <strong>${tarea.titulo}</strong>
-                <span class="prioridad">Prioridad: ${tarea.prioridad}</span>
-            </div>
-            <div class="botones">
-                <button onclick="editarTarea(${tarea.id})">✏️</button>
-                <button onclick="eliminarTarea(${tarea.id})">🗑️</button>
-            </div>
-        `;
-
-        listaTareas.appendChild(li);
     });
+
+    guardar(tareas);
+    formulario.reset();
+    renderizar();
 }
 
-// UPDATE
-function editarTarea(id) {
-    let tareas = obtenerTareas();
-    const tarea = tareas.find(t => t.id === id);
+function renderizar() {
+    contenedor.innerHTML = "";
+    obtener().forEach(t => contenedor.appendChild(crearCard(t)));
+}
 
-    const nuevoTitulo = prompt("Editar tarea:", tarea.titulo);
-    if (nuevoTitulo !== null && nuevoTitulo.trim() !== "") {
-        tarea.titulo = nuevoTitulo;
-        guardarTareas(tareas);
-        mostrarTareas();
+function crearCard(tarea) {
+    const div = document.createElement("div");
+    div.className = `card ${tarea.prioridad}`;
+
+    div.innerHTML = `
+        <h3>${tarea.titulo}</h3>
+        <small>Prioridad: ${tarea.prioridad}</small>
+        <div class="acciones">
+            <button onclick="editar(${tarea.id})">
+                <i class="fas fa-pen"></i>
+            </button>
+            <button onclick="eliminar(${tarea.id})">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `;
+
+    return div;
+}
+
+function editar(id) {
+    const tareas = obtener();
+    const tarea = tareas.find(t => t.id === id);
+    const nuevo = prompt("Editar tarea", tarea.titulo);
+
+    if (nuevo) {
+        tarea.titulo = nuevo;
+        guardar(tareas);
+        renderizar();
     }
 }
 
-// DELETE
-function eliminarTarea(id) {
-    let tareas = obtenerTareas();
-    tareas = tareas.filter(t => t.id !== id);
-    guardarTareas(tareas);
-    mostrarTareas();
+function eliminar(id) {
+    guardar(obtener().filter(t => t.id !== id));
+    renderizar();
 }
 
-// localStorage helpers
-function obtenerTareas() {
+function obtener() {
     return JSON.parse(localStorage.getItem("tareas")) || [];
 }
 
-function guardarTareas(tareas) {
+function guardar(tareas) {
     localStorage.setItem("tareas", JSON.stringify(tareas));
 }

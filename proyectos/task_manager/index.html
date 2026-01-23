@@ -2,26 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Gestor de Tareas</title>
+    <title>Task Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="contenedor">
-        <h1>Gestor de Tareas</h1>
+    <header>
+        <h1>📝 Task Board</h1>
+        <p>Organiza tus tareas de forma visual</p>
+    </header>
 
-        <form id="formulario">
-            <input type="text" id="titulo" placeholder="Nueva tarea" required>
+    <main class="board">
+        <form id="formulario" class="card nueva">
+            <input type="text" id="titulo" placeholder="Nueva tarea..." required>
             <select id="prioridad">
-                <option value="Alta">Alta</option>
-                <option value="Media">Media</option>
-                <option value="Baja">Baja</option>
+                <option value="alta">Alta</option>
+                <option value="media">Media</option>
+                <option value="baja">Baja</option>
             </select>
-            <button type="submit">Agregar</button>
+            <button type="submit">
+                <i class="fas fa-plus"></i> Agregar
+            </button>
         </form>
 
-        <ul id="lista-tareas"></ul>
-    </div>
+        <section id="tareas" class="tareas"></section>
+    </main>
 
     <script src="app.js"></script>
 </body>

@@ -210,7 +210,7 @@
             color: var(--primary);
         }
 
-        /* Proyectos (sin imágenes) */
+        /* Proyectos */
         .proyecto {
             background: var(--card);
             border: 1px solid var(--border);
@@ -218,7 +218,25 @@
             padding: 26px;
             transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
             height: 100%;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Fondo suave para que no se vean vacíos sin imagen */
+        .proyecto::before{
+            content:"";
+            position:absolute;
+            inset:0;
+            background:
+                radial-gradient(700px circle at 0% 0%, rgba(56,189,248,0.10), transparent 50%),
+                radial-gradient(700px circle at 100% 0%, rgba(167,139,250,0.10), transparent 50%);
+            pointer-events:none;
+        }
+        .proyecto > *{
+            position: relative;
+            z-index: 1;
+        }
+
         .proyecto:hover {
             transform: translateY(-10px);
             box-shadow: 0 26px 55px rgba(2,6,23,0.12);
@@ -227,8 +245,7 @@
         .proyecto h3{
             font-size: 1.25rem;
             font-weight: 700;
-            margin-top: 0.5rem;
-            margin-bottom: 0.75rem;
+            margin-top: 0px;
         }
         .proyecto a{
             color: var(--primary);
@@ -240,10 +257,10 @@
         }
         .proyecto p{
             color: var(--muted);
-            margin-bottom: 0.6rem;
+            margin-bottom: 10px;
         }
 
-        /* Contacto - email largo */
+        /* Contacto */
         .contact-card {
             background: var(--card);
             border: 1px solid var(--border);
@@ -265,26 +282,20 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.75rem;
         }
-        .contact-card a,
-        .contact-card .email-long {
+
+        /* ✅ FIX: Email largo no se sale del contenedor */
+        .contact-card a{
             color: #0f4dd8;
             text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            word-break: break-all;
-            overflow-wrap: break-word;
-            hyphens: auto;
-        }
-        .contact-card a:hover,
-        .contact-card .email-long:hover {
-            text-decoration: underline;
-        }
+            font-weight: 600;
 
-        @media (max-width: 576px) {
-            .contact-card a,
-            .contact-card .email-long {
-                font-size: 0.9rem;
-            }
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            display: inline-block;
+            max-width: 100%;
+        }
+        .contact-card a:hover{
+            text-decoration: underline;
         }
 
         .btn-cv {
@@ -414,7 +425,7 @@
     </div>
 </section>
 
-<!-- Proyectos (sin imágenes) -->
+<!-- Proyectos -->
 <section id="proyectos" class="section-soft">
     <div class="container">
         <div class="text-center mb-5">
@@ -425,6 +436,7 @@
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="proyecto">
+                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/crypto_dashboard/index.html" target="_blank">Crypto Dashboard</a></h3>
                     <p>Dashboard en tiempo real con gráficos interactivos, buscador y filtros. Consumo de API CoinGecko.</p>
                     <p><strong>Tecnologías:</strong> HTML, CSS, JS, Chart.js, API REST</p>
@@ -434,6 +446,7 @@
 
             <div class="col-md-6">
                 <div class="proyecto">
+                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/img_to_pdf/index.html" target="_blank">Convertir imágenes a PDF</a></h3>
                     <p>Aplicación web para convertir o unir imágenes en PDF.</p>
                     <p><strong>Tecnologías:</strong> JS, HTML, CSS</p>
@@ -443,6 +456,7 @@
 
             <div class="col-md-6">
                 <div class="proyecto">
+                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/suelo/index.html" target="_blank">Sensor de Suelo IoT</a></h3>
                     <p>(En desarrollo) Sistema que lee pH y humedad, genera reportes y recomendaciones agrícolas.</p>
                     <p><strong>Tecnologías:</strong> Python, MySQL, Tkinter</p>
@@ -452,6 +466,7 @@
 
             <div class="col-md-6">
                 <div class="proyecto">
+                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/guitar_hero/index.html" target="_blank">Guitar Hero 3D</a></h3>
                     <p>(En desarrollo) Juego rítmico 3D con notas sincronizadas y vista inmersiva.</p>
                     <p><strong>Tecnologías:</strong> Python, Panda3D</p>
@@ -475,7 +490,7 @@
                 <div class="contact-card">
                     <i class="bi bi-envelope contact-icon"></i>
                     <p><strong>Email</strong></p>
-                    <a href="mailto:sergioagonzalezleal25@gmail.com" class="email-long">sergioagonzalezleal25@gmail.com</a>
+                    <a href="mailto:sergioagonzalezleal25@gmail.com">sergioagonzalezleal25@gmail.com</a>
                 </div>
             </div>
 
@@ -495,13 +510,12 @@
                 </div>
             </div>
 
+            <!-- ✅ GitHub REEMPLAZADO por Certificados -->
             <div class="col-md-3 col-6">
                 <div class="contact-card">
                     <i class="bi bi-patch-check-fill contact-icon"></i>
                     <p><strong>Certificados</strong></p>
-                    <a href="#" target="_blank">Python - Platzi / Coursera</a><br>
-                    <a href="#" target="_blank">Desarrollo Web - freeCodeCamp</a><br>
-                    <small class="text-muted">(en proceso de actualización)</small>
+                    <a href="certificados.html" target="_blank">Ver certificados</a>
                 </div>
             </div>
         </div>
@@ -559,8 +573,15 @@
         },
         interactivity: {
             detect_on: 'canvas',
-            events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' }, resize: true },
-            modes: { repulse: { distance: 80, duration: 0.4 }, push: { particles_nb: 4 } }
+            events: {
+                onhover: { enable: true, mode: 'repulse' },
+                onclick: { enable: true, mode: 'push' },
+                resize: true
+            },
+            modes: {
+                repulse: { distance: 80, duration: 0.4 },
+                push: { particles_nb: 4 }
+            }
         },
         retina_detect: true
     });

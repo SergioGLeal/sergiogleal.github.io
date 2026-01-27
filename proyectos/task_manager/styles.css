@@ -1,13 +1,9 @@
-/* ==============================
-   🎨 Design System (PRO)
-================================ */
 :root {
     --primary: #2563eb;
-    --primary-dark: #1e40af;
-    --bg-main: #0f172a;
-    --bg-soft: #020617;
+    --bg-main: #f5f7fb;
+    --bg-soft: #e9edf5;
     --panel: #ffffff;
-    --muted: #64748b;
+    --border: #e5e7eb;
 
     --danger: #ef4444;
     --warning: #f59e0b;
@@ -17,9 +13,7 @@
     --radius-md: 14px;
 }
 
-/* ==============================
-   Reset
-================================ */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -27,19 +21,12 @@
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
-    background:
-        radial-gradient(900px circle at 10% 10%, rgba(37,99,235,.15), transparent 40%),
-        radial-gradient(700px circle at 90% 20%, rgba(99,102,241,.15), transparent 40%),
-        linear-gradient(180deg, var(--bg-main), var(--bg-soft));
-    color: #e5e7eb;
-    min-height: 100vh;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: linear-gradient(180deg, var(--bg-main), var(--bg-soft));
+    color: #0f172a;
     padding: 60px 20px;
 }
 
-/* ==============================
-   Layout
-================================ */
 .container {
     max-width: 1300px;
     margin: auto;
@@ -47,155 +34,126 @@ body {
 
 header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 header h1 {
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 800;
-    letter-spacing: -1px;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
 header p {
-    color: #cbd5f5;
-    margin-top: 10px;
+    color: #475569;
 }
 
-/* ==============================
-   Formulario
-================================ */
+/* Form */
 form {
     display: flex;
     gap: 14px;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(255,255,255,0.15);
+    background: white;
+    border: 1px solid var(--border);
     padding: 20px;
     border-radius: var(--radius-lg);
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 input, select {
-    background: rgba(255,255,255,0.9);
-    border: none;
+    flex: 1;
     padding: 14px 16px;
     border-radius: var(--radius-md);
+    border: 1px solid #d1d5db;
     font-size: 1rem;
+    transition: .2s;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,.2);
     outline: none;
-    flex: 1;
 }
 
-input:focus {
-    box-shadow: 0 0 0 4px rgba(37,99,235,0.25);
-}
-
-button[type="submit"] {
-    background: linear-gradient(90deg, var(--primary), #6366f1);
+button {
+    background: var(--primary);
     color: white;
     border: none;
     padding: 14px 26px;
     border-radius: var(--radius-md);
     font-weight: 700;
     cursor: pointer;
-    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-button[type="submit"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(37,99,235,.35);
-}
-
-/* ==============================
-   Kanban Board
-================================ */
-.board-wrapper {
-    background: rgba(255,255,255,0.03);
-    border-radius: 28px;
-    padding: 30px;
-}
-
+/* Board */
 .kanban-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 28px;
 }
 
-/* Columnas */
 .kanban-column {
     background: var(--panel);
+    border: 1px solid var(--border);
     border-radius: 22px;
     padding: 22px;
     min-height: 520px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 30px 60px rgba(2,6,23,0.15);
-    transition: transform .25s ease;
-}
-
-.kanban-column:hover {
-    transform: translateY(-6px);
 }
 
 .kanban-column h2 {
     font-size: 1.1rem;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #0f172a;
     margin-bottom: 18px;
+    display: flex;
+    gap: 8px;
 }
 
 .task-list {
     list-style: none;
-    flex: 1;
 }
 
-/* ==============================
-   Tarjetas (Tareas)
-================================ */
+/* Tasks */
 .task-item {
-    background: #f8fafc;
-    border-radius: 16px;
-    padding: 18px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
     margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: grab;
-    box-shadow: 0 8px 20px rgba(15,23,42,.08);
-    transition: transform .2s ease, box-shadow .2s ease;
-    animation: fadeUp .35s ease both;
+    transition: .2s;
 }
 
 .task-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 35px rgba(15,23,42,.15);
+    box-shadow: 0 10px 20px rgba(15,23,42,.12);
 }
 
 .task-info strong {
     display: block;
-    font-size: 1rem;
-    color: #0f172a;
 }
 
-/* Prioridad */
+/* Prioridades */
 .prioridad {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    padding: 5px 12px;
+    font-size: .65rem;
+    padding: 4px 10px;
     border-radius: 999px;
-    font-weight: 800;
+    font-weight: 700;
     margin-top: 6px;
     display: inline-block;
-    color: white;
 }
-.prioridad.alta { background: var(--danger); }
-.prioridad.media { background: var(--warning); }
-.prioridad.baja { background: var(--success); }
+
+.prioridad.alta {
+    background: rgba(239,68,68,.15);
+    color: #b91c1c;
+}
+
+.prioridad.media {
+    background: rgba(245,158,11,.15);
+    color: #92400e;
+}
+
+.prioridad.baja {
+    background: rgba(16,185,129,.15);
+    color: #065f46;
+}
 
 /* Botones */
 .botones {
@@ -204,49 +162,24 @@ button[type="submit"]:hover {
 }
 
 .botones button {
-    background: white;
-    border: none;
+    background: #f1f5f9;
+    color: #475569;
     width: 36px;
     height: 36px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #64748b;
-    transition: all .2s ease;
+    border-radius: 10px;
 }
 
 .botones button:hover {
     background: #fee2e2;
     color: var(--danger);
-    transform: scale(1.1);
 }
 
-/* ==============================
-   Drag & Drop
-================================ */
-.dragging {
-    opacity: 0.4;
-    transform: scale(.95);
-}
-
+/* Drag */
 .drag-over {
-    outline: 3px dashed var(--primary);
-    outline-offset: -6px;
+    outline: 2px dashed var(--primary);
 }
 
-/* ==============================
-   Animaciones
-================================ */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ==============================
-   Responsive
-================================ */
+/* Responsive */
 @media (max-width: 900px) {
     .kanban-board {
         grid-template-columns: 1fr;

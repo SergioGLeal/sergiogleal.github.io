@@ -1,3 +1,13 @@
+/* Variables para mantener consistencia */
+:root {
+    --primary: #2563eb;
+    --bg-kanban: #f1f5f9;
+    --task-bg: #ffffff;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --success: #10b981;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -5,180 +15,169 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
-    color: #333;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(circle at top right, #e2e8f0, #cbd5e1);
+    color: #1e293b;
     min-height: 100vh;
-    padding: 20px;
+    padding: 40px 20px;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
 header {
     text-align: center;
     margin-bottom: 40px;
-    animation: fadeIn 1s ease;
 }
 
 header h1 {
-    font-size: 2.8rem;
-    color: #0d47a1;
-    margin-bottom: 8px;
+    font-size: 3rem;
+    color: #1e3a8a;
+    letter-spacing: -1px;
 }
 
-header p {
-    color: #555;
-    font-size: 1.1rem;
-}
-
+/* Formulario Estilizado */
 form {
     display: flex;
-    gap: 12px;
-    margin-bottom: 40px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 15px;
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    margin-bottom: 50px;
 }
 
 input, select {
-    padding: 12px 16px;
-    border: 2px solid #ccc;
+    border: 2px solid #e2e8f0;
+    padding: 12px;
     border-radius: 12px;
     font-size: 1rem;
-    flex: 1;
-    min-width: 200px;
-    transition: border 0.3s;
-}
-
-input:focus, select:focus {
-    border-color: #2196f3;
     outline: none;
+    transition: all 0.3s;
 }
 
-button {
-    padding: 12px 24px;
-    background: linear-gradient(90deg, #2196f3, #42a5f5);
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+button[type="submit"] {
+    background: var(--primary);
     color: white;
     border: none;
+    padding: 12px 25px;
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: 0.3s;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(33,150,243,0.4);
-}
-
+/* Kanban Board */
 .kanban-board {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 20px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    align-items: start;
 }
 
 .kanban-column {
-    min-width: 320px;
-    background: white;
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
     padding: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    transition: transform 0.3s;
-}
-
-.kanban-column:hover {
-    transform: translateY(-5px);
+    border: 1px solid rgba(255,255,255,0.3);
+    min-height: 500px;
 }
 
 .kanban-column h2 {
-    text-align: center;
-    margin-bottom: 16px;
-    font-size: 1.4rem;
-    color: #0d47a1;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #334155;
 }
 
 .task-list {
-    min-height: 300px;
-    padding: 10px;
-    border: 2px dashed #ccc;
-    border-radius: 12px;
-    background: #f9f9f9;
+    min-height: 400px;
+    list-style: none;
 }
 
+/* Tareas Individuales */
 .task-item {
-    background: white;
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    background: var(--task-bg);
+    border-radius: 15px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: grab;
-    transition: all 0.3s;
-    opacity: 0;
-    animation: slideIn 0.5s forwards;
+    animation: slideIn 0.4s ease-out forwards;
 }
 
-.task-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
+.task-item:active { cursor: grabbing; }
 
-.task-info {
-    flex: 1;
+/* BOTONES: Aquí arreglamos tu problema */
+.botones {
+    display: flex;
+    gap: 5px;
 }
-
-.task-info strong {
-    display: block;
-    font-size: 1.1rem;
-    margin-bottom: 4px;
-}
-
-.prioridad {
-    font-size: 0.85rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-    color: white;
-    font-weight: 600;
-}
-
-.prioridad.alta { background: #f44336; }
-.prioridad.media { background: #ff9800; }
-.prioridad.baja { background: #4caf50; }
 
 .botones button {
-    background: none;
+    background: #f8fafc; /* Fondo suave para que se vean */
     border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 1.3rem;
-    margin-left: 8px;
-    transition: color 0.2s;
+    transition: all 0.2s;
+    color: #64748b; /* Color grisáceo visible */
 }
 
 .botones button:hover {
-    color: #f44336;
+    background: #fee2e2;
+    color: var(--danger);
+    transform: scale(1.1);
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Prioridades con colores sólidos */
+.prioridad {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    color: white;
+    display: inline-block;
+    margin-top: 5px;
+}
+.prioridad.alta { background-color: var(--danger); }
+.prioridad.media { background-color: var(--warning); }
+.prioridad.baja { background-color: var(--success); }
+
+/* Estados de Drag & Drop */
+.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+}
+
+.drag-over {
+    background: rgba(37, 99, 235, 0.05);
+    border: 2px dashed var(--primary);
 }
 
 @keyframes slideIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsivo */
-@media (max-width: 768px) {
-    .kanban-board {
-        flex-direction: column;
-    }
-    .kanban-column {
-        min-width: 100%;
-    }
+@media (max-width: 900px) {
+    .kanban-board { grid-template-columns: 1fr; }
 }

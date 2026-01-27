@@ -1,13 +1,25 @@
-/* Variables para mantener consistencia */
+/* ==============================
+   🎨 Design System (PRO)
+================================ */
 :root {
     --primary: #2563eb;
-    --bg-kanban: #f1f5f9;
-    --task-bg: #ffffff;
+    --primary-dark: #1e40af;
+    --bg-main: #0f172a;
+    --bg-soft: #020617;
+    --panel: #ffffff;
+    --muted: #64748b;
+
     --danger: #ef4444;
     --warning: #f59e0b;
     --success: #10b981;
+
+    --radius-lg: 18px;
+    --radius-md: 14px;
 }
 
+/* ==============================
+   Reset
+================================ */
 * {
     margin: 0;
     padding: 0;
@@ -15,130 +27,194 @@
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: radial-gradient(circle at top right, #e2e8f0, #cbd5e1);
-    color: #1e293b;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background:
+        radial-gradient(900px circle at 10% 10%, rgba(37,99,235,.15), transparent 40%),
+        radial-gradient(700px circle at 90% 20%, rgba(99,102,241,.15), transparent 40%),
+        linear-gradient(180deg, var(--bg-main), var(--bg-soft));
+    color: #e5e7eb;
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 60px 20px;
 }
 
+/* ==============================
+   Layout
+================================ */
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1300px;
+    margin: auto;
 }
 
 header {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 50px;
 }
 
 header h1 {
     font-size: 3rem;
-    color: #1e3a8a;
+    font-weight: 800;
     letter-spacing: -1px;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-/* Formulario Estilizado */
+header p {
+    color: #cbd5f5;
+    margin-top: 10px;
+}
+
+/* ==============================
+   Formulario
+================================ */
 form {
     display: flex;
-    gap: 15px;
-    background: white;
+    gap: 14px;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,0.15);
     padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    border-radius: var(--radius-lg);
     margin-bottom: 50px;
 }
 
 input, select {
-    border: 2px solid #e2e8f0;
-    padding: 12px;
-    border-radius: 12px;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
     font-size: 1rem;
     outline: none;
-    transition: all 0.3s;
+    flex: 1;
 }
 
 input:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    box-shadow: 0 0 0 4px rgba(37,99,235,0.25);
 }
 
 button[type="submit"] {
-    background: var(--primary);
+    background: linear-gradient(90deg, var(--primary), #6366f1);
     color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 12px;
-    font-weight: 600;
+    padding: 14px 26px;
+    border-radius: var(--radius-md);
+    font-weight: 700;
     cursor: pointer;
-    transition: 0.3s;
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-/* Kanban Board */
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(37,99,235,.35);
+}
+
+/* ==============================
+   Kanban Board
+================================ */
+.board-wrapper {
+    background: rgba(255,255,255,0.03);
+    border-radius: 28px;
+    padding: 30px;
+}
+
 .kanban-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    align-items: start;
+    gap: 30px;
 }
 
+/* Columnas */
 .kanban-column {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 20px;
-    border: 1px solid rgba(255,255,255,0.3);
-    min-height: 500px;
+    background: var(--panel);
+    border-radius: 22px;
+    padding: 22px;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 30px 60px rgba(2,6,23,0.15);
+    transition: transform .25s ease;
+}
+
+.kanban-column:hover {
+    transform: translateY(-6px);
 }
 
 .kanban-column h2 {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 800;
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #334155;
+    color: #0f172a;
+    margin-bottom: 18px;
 }
 
 .task-list {
-    min-height: 400px;
     list-style: none;
+    flex: 1;
 }
 
-/* Tareas Individuales */
+/* ==============================
+   Tarjetas (Tareas)
+================================ */
 .task-item {
-    background: var(--task-bg);
-    border-radius: 15px;
+    background: #f8fafc;
+    border-radius: 16px;
     padding: 18px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    margin-bottom: 14px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: grab;
-    animation: slideIn 0.4s ease-out forwards;
+    box-shadow: 0 8px 20px rgba(15,23,42,.08);
+    transition: transform .2s ease, box-shadow .2s ease;
+    animation: fadeUp .35s ease both;
 }
 
-.task-item:active { cursor: grabbing; }
+.task-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 35px rgba(15,23,42,.15);
+}
 
-/* BOTONES: Aquí arreglamos tu problema */
+.task-info strong {
+    display: block;
+    font-size: 1rem;
+    color: #0f172a;
+}
+
+/* Prioridad */
+.prioridad {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 800;
+    margin-top: 6px;
+    display: inline-block;
+    color: white;
+}
+.prioridad.alta { background: var(--danger); }
+.prioridad.media { background: var(--warning); }
+.prioridad.baja { background: var(--success); }
+
+/* Botones */
 .botones {
     display: flex;
-    gap: 5px;
+    gap: 6px;
 }
 
 .botones button {
-    background: #f8fafc; /* Fondo suave para que se vean */
+    background: white;
     border: none;
-    width: 35px;
-    height: 35px;
-    border-radius: 10px;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s;
-    color: #64748b; /* Color grisáceo visible */
+    color: #64748b;
+    transition: all .2s ease;
 }
 
 .botones button:hover {
@@ -147,37 +223,32 @@ button[type="submit"] {
     transform: scale(1.1);
 }
 
-/* Prioridades con colores sólidos */
-.prioridad {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-weight: 700;
-    color: white;
-    display: inline-block;
-    margin-top: 5px;
-}
-.prioridad.alta { background-color: var(--danger); }
-.prioridad.media { background-color: var(--warning); }
-.prioridad.baja { background-color: var(--success); }
-
-/* Estados de Drag & Drop */
+/* ==============================
+   Drag & Drop
+================================ */
 .dragging {
-    opacity: 0.5;
-    transform: scale(0.95);
+    opacity: 0.4;
+    transform: scale(.95);
 }
 
 .drag-over {
-    background: rgba(37, 99, 235, 0.05);
-    border: 2px dashed var(--primary);
+    outline: 3px dashed var(--primary);
+    outline-offset: -6px;
 }
 
-@keyframes slideIn {
+/* ==============================
+   Animaciones
+================================ */
+@keyframes fadeUp {
     from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
+/* ==============================
+   Responsive
+================================ */
 @media (max-width: 900px) {
-    .kanban-board { grid-template-columns: 1fr; }
+    .kanban-board {
+        grid-template-columns: 1fr;
+    }
 }

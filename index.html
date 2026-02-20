@@ -36,6 +36,7 @@
             line-height: 1.7;
             min-height: 100vh;
             scroll-behavior: smooth;
+            overflow-x: hidden; /* Evita scroll horizontal por animaciones */
         }
 
         /* Navbar */
@@ -78,7 +79,6 @@
         header .container {
             position: relative;
             z-index: 1;
-            animation: fadeUp .7s ease both;
         }
         header h1 {
             font-size: 3.1rem;
@@ -155,10 +155,12 @@
             font-size: 1.05rem;
         }
 
+        /* Sobre mi - Justificado */
         .about-text{
             color: var(--muted);
-            font-size: 1.05rem;
-            text-align: center;
+            font-size: 1.1rem;
+            text-align: justify;
+            margin-bottom: 1.5rem;
         }
 
         .profile-img {
@@ -199,7 +201,7 @@
             color: var(--primary);
         }
 
-        /* Proyectos Actualizado */
+        /* Proyectos */
         .proyecto {
             background: var(--card);
             border: 1px solid var(--border);
@@ -316,14 +318,10 @@
             margin-top: 70px;
         }
 
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(18px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         @media (max-width: 576px) {
             header h1 { font-size: 2.2rem; }
             .profile-img { width: 140px; height: 140px; }
+            .about-text { text-align: left; } /* En móvil el justificado a veces se ve mal */
         }
     </style>
 </head>
@@ -372,11 +370,11 @@
                 </div>
                 <p class="about-text">
                     Ingeniero en Sistemas Computacionales titulado. Durante mis <strong>residencias profesionales en ESEASA Offshore</strong>, 
-                    desarrollé sistemas internos y APIs REST que optimizaron procesos operativos clave.
+                    desarrollé sistemas internos y APIs REST que optimizaron procesos operativos clave, demostrando capacidad para resolver problemas complejos bajo entornos de alta exigencia.
                 </p>
                 <p class="about-text">
                     Tengo experiencia práctica en desarrollo fullstack y análisis de datos con <strong>R y Tableau</strong>. 
-                    Me enfoco en el código limpio, interfaces intuitivas y el aprendizaje continuo en entornos dinámicos.
+                    Me enfoco en la creación de código limpio, el diseño de interfaces intuitivas y el aprendizaje continuo de nuevas tecnologías para aportar valor real en cada proyecto en el que participo.
                 </p>
             </div>
         </div>
@@ -407,7 +405,7 @@
             <h2>Algunos Proyectos</h2>
         </div>
         <div class="row g-4">
-            <div class="col-md-6" data-aos="zoom-in">
+            <div class="col-md-6" data-aos="fade-up">
                 <div class="proyecto">
                     <h3>Crypto Dashboard</h3>
                     <p class="flex-grow-1">Dashboard en tiempo real con gráficos interactivos y filtros de búsqueda. Consumo de API CoinGecko.</p>
@@ -419,7 +417,7 @@
                     <a href="proyectos/crypto_dashboard/index.html" target="_blank" class="btn-ver">Ver proyecto <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div> 
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="proyecto">
                     <h3>Convertir imágenes a PDF</h3>
                     <p class="flex-grow-1">Aplicación web funcional para convertir o unir múltiples imágenes en un solo archivo PDF de forma rápida.</p>
@@ -431,8 +429,7 @@
                     <a href="proyectos/img_to_pdf/index.html" target="_blank" class="btn-ver">Ver proyecto <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
-
-            <div class="col-md-6" data-aos="zoom-in">
+            <div class="col-md-6" data-aos="fade-up">
                 <div class="proyecto">
                     <h3>Gestor de tareas</h3>
                     <p class="flex-grow-1">Sistema CRUD para gestionar actividades diarias, permitiendo organizar el flujo de trabajo personal.</p>
@@ -444,8 +441,7 @@
                     <a href="proyectos/task_manager/index.html" target="_blank" class="btn-ver">Ver proyecto <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
-
-            <div class="col-md-6" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
                 <div class="proyecto">
                     <h3>Guitar Hero 3D</h3>
                     <p class="flex-grow-1">(En desarrollo) Un reto técnico de lógica y renderizado 3D con notas sincronizadas usando Panda3D.</p>
@@ -514,13 +510,8 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
 <script>
-    // Inicializar Animaciones
-    AOS.init({
-        duration: 800,
-        once: true
-    });
-
     $(document).ready(function(){
+        // Inicializar Slider
         $('.skills-slider').slick({
             infinite: true,
             slidesToShow: 5,
@@ -533,20 +524,33 @@
                 { breakpoint: 576, settings: { slidesToShow: 2 } }
             ]
         });
-    });
 
-    particlesJS('particles-js', {
-        particles: {
-            number: { value: 60, density: { enable: true, value_area: 800 } },
-            color: { value: '#ffffff' },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.35, width: 1 },
-            move: { enable: true, speed: 1.6 }
-        },
-        interactivity: {
-            events: { onhover: { enable: true, mode: 'repulse' } }
-        }
+        // Inicializar Partículas
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 60, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.35, width: 1 },
+                move: { enable: true, speed: 1.6 }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: 'repulse' } }
+            }
+        });
+
+        // INICIALIZAR AOS AL FINAL Y REFRESCAR
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 120 // Dispara la animación antes de que el elemento llegue arriba
+        });
+
+        // Forzar detección de posición tras carga de recursos
+        window.addEventListener('load', function() {
+            AOS.refresh();
+        });
     });
 </script>
 </body>

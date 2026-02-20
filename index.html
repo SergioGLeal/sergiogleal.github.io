@@ -6,23 +6,18 @@
     <meta name="description" content="Portafolio de Sergio Antonio González Leal, desarrollador fullstack junior con experiencia en Python, PHP, MySQL, Android y más.">
     <title>Sergio González - Desarrollador Fullstack</title>
 
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Slick Slider -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
-    <!-- Particles.js -->
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
     <style>
         :root{
-            --primary: #0b1220;         /* azul oscuro elegante */
-            --accent: #38bdf8;          /* azul neon */
-            --accent2: #a78bfa;         /* morado suave */
+            --primary: #0b1220;
+            --accent: #38bdf8;
+            --accent2: #a78bfa;
             --bg: #f6f8fc;
             --section: #ffffff;
             --card: #ffffff;
@@ -95,7 +90,6 @@
             margin-top: 10px;
         }
 
-        /* Botones header */
         .hero-actions{
             margin-top: 26px;
             display:flex;
@@ -123,11 +117,7 @@
             border: none;
             box-shadow: 0 10px 25px rgba(56,189,248,0.25);
         }
-        .btn-hero.primary:hover{
-            box-shadow: 0 14px 35px rgba(56,189,248,0.35);
-        }
 
-        /* Secciones */
         section {
             padding: 95px 0;
         }
@@ -163,10 +153,10 @@
             font-size: 1.05rem;
         }
 
-        /* Sobre mí */
         .about-text{
             color: var(--muted);
             font-size: 1.05rem;
+            text-align: center; /* Mejorado para legibilidad */
         }
 
         .profile-img {
@@ -178,11 +168,10 @@
             transition: transform 0.35s ease, box-shadow 0.35s ease;
         }
         .profile-img:hover {
-            transform: scale(1.06);
+            transform: scale(1.06) rotate(2deg);
             box-shadow: 0 22px 55px rgba(56,189,248,0.25);
         }
 
-        /* Habilidades */
         .skills-slider {
             margin: 45px 0 5px;
         }
@@ -191,9 +180,7 @@
             padding: 18px 10px;
             transition: transform .25s ease;
         }
-        .skill-item:hover {
-            transform: translateY(-8px);
-        }
+        .skill-item:hover { transform: translateY(-8px); }
         .skill-logo {
             height: 72px;
             width: auto;
@@ -216,48 +203,40 @@
             border: 1px solid var(--border);
             border-radius: 18px;
             padding: 26px;
-            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            transition: all 0.3s ease;
             height: 100%;
+            display: flex;
+            flex-direction: column;
             position: relative;
             overflow: hidden;
         }
 
-        /* Fondo suave para que no se vean vacíos sin imagen */
         .proyecto::before{
             content:"";
             position:absolute;
             inset:0;
             background:
-                radial-gradient(700px circle at 0% 0%, rgba(56,189,248,0.10), transparent 50%),
-                radial-gradient(700px circle at 100% 0%, rgba(167,139,250,0.10), transparent 50%);
+                radial-gradient(700px circle at 0% 0%, rgba(56,189,248,0.05), transparent 50%),
+                radial-gradient(700px circle at 100% 0%, rgba(167,139,250,0.05), transparent 50%);
             pointer-events:none;
-        }
-        .proyecto > *{
-            position: relative;
-            z-index: 1;
         }
 
         .proyecto:hover {
             transform: translateY(-10px);
             box-shadow: 0 26px 55px rgba(2,6,23,0.12);
-            border-color: rgba(56,189,248,0.55);
+            border-color: var(--accent);
         }
-        .proyecto h3{
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-top: 0px;
-        }
-        .proyecto a{
+
+        .badge-tech {
+            background: rgba(56,189,248,0.1);
             color: var(--primary);
-            text-decoration: none;
-        }
-        .proyecto a:hover{
-            color: #0f4dd8;
-            text-decoration: underline;
-        }
-        .proyecto p{
-            color: var(--muted);
-            margin-bottom: 10px;
+            border: 1px solid rgba(56,189,248,0.2);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            display: inline-block;
         }
 
         /* Contacto */
@@ -267,13 +246,13 @@
             border-radius: 18px;
             padding: 25px;
             text-align: center;
-            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+            transition: all 0.3s ease;
             height: 100%;
         }
         .contact-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 22px 45px rgba(2,6,23,0.10);
-            border-color: rgba(167,139,250,0.45);
+            border-color: var(--accent2);
         }
         .contact-icon {
             font-size: 2.6rem;
@@ -283,19 +262,11 @@
             margin-bottom: 0.75rem;
         }
 
-        /* ✅ FIX: Email largo no se sale del contenedor */
         .contact-card a{
             color: #0f4dd8;
             text-decoration: none;
             font-weight: 600;
-
             word-break: break-word;
-            overflow-wrap: anywhere;
-            display: inline-block;
-            max-width: 100%;
-        }
-        .contact-card a:hover{
-            text-decoration: underline;
         }
 
         .btn-cv {
@@ -305,18 +276,13 @@
             border-radius: 999px;
             font-weight: 700;
             box-shadow: 0 10px 25px rgba(56,189,248,0.25);
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
         }
-        .btn-cv:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 35px rgba(56,189,248,0.35);
-        }
 
-        /* Footer */
         footer {
             background: var(--primary);
             color: white;
@@ -325,24 +291,20 @@
             margin-top: 70px;
         }
 
-        /* Animación simple al cargar */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(18px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Responsive */
         @media (max-width: 576px) {
             header h1 { font-size: 2.2rem; }
-            header p { font-size: 1.15rem; }
-            .profile-img { width: 150px; height: 150px; }
+            .profile-img { width: 140px; height: 140px; }
         }
     </style>
 </head>
 
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand" href="#">Sergio G.</a>
@@ -350,7 +312,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" href="#sobre-mi">Sobre mí</a></li>
                 <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
                 <li class="nav-item"><a class="nav-link" href="#proyectos">Proyectos</a></li>
@@ -360,13 +322,11 @@
     </div>
 </nav>
 
-<!-- Header -->
 <header>
     <div id="particles-js"></div>
     <div class="container">
         <h1>Sergio Antonio González Leal</h1>
         <p>Desarrollador Fullstack Junior | Python • PHP • Android • Web</p>
-
         <div class="hero-actions">
             <a class="btn-hero primary" href="#proyectos"><i class="bi bi-grid-1x2"></i> Ver proyectos</a>
             <a class="btn-hero" href="#contacto"><i class="bi bi-chat-dots"></i> Contacto</a>
@@ -374,157 +334,138 @@
     </div>
 </header>
 
-<!-- Sobre mí -->
 <section id="sobre-mi" class="section-soft">
     <div class="container">
         <div class="text-center mb-5">
             <h2>Sobre mí</h2>
-            <p class="section-subtitle">
-                Enfocado en construir software funcional, limpio y escalable con excelentes prácticas de desarrollo
-            </p>
+            <p class="section-subtitle">Ingeniero apasionado por transformar lógica en soluciones eficientes.</p>
         </div>
-
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <p class="about-text text-justify">
-                    Ingeniero en Sistemas Computacionales titulado. Durante mis <strong>residencias profesionales en ESEASA Offshore</strong>, 
-                    desarrollé sistemas internos, soluciones backend y APIs REST que optimizaron procesos operativos y mejoraron la eficiencia 
-                    de la operación.
-                </p>
-                <p class="about-text text-justify">
-                    Tengo experiencia práctica en desarrollo fullstack, creación de aplicaciones web escalables, manejo de bases de datos 
-                    y aplicación sistemática de buenas prácticas de programación. También he realizado proyectos de <strong>análisis de datos</strong> 
-                    utilizando <strong>R</strong> y <strong>Tableau</strong>, transformando información en decisiones accionables.
-                </p>
-                <p class="about-text text-justify">
-                    Me apasiona resolver problemas reales mediante código limpio, interfaces intuitivas y arquitectura bien pensada. 
-                    Destaco por mi pensamiento lógico, responsabilidad, capacidad de aprendizaje rápido y trabajo colaborativo en entornos 
-                    dinámicos.
-                </p>
-
-                <div class="text-center mt-5">
+                <div class="text-center mb-4">
                     <img src="yo.jpg" alt="Sergio Antonio" class="rounded-circle profile-img">
                 </div>
+                <p class="about-text">
+                    Ingeniero en Sistemas Computacionales titulado. Durante mis <strong>residencias profesionales en ESEASA Offshore</strong>, 
+                    desarrollé sistemas internos y APIs REST que optimizaron procesos operativos clave.
+                </p>
+                <p class="about-text">
+                    Tengo experiencia práctica en desarrollo fullstack y análisis de datos con <strong>R y Tableau</strong>. 
+                    Me enfoco en el código limpio, interfaces intuitivas y el aprendizaje continuo en entornos dinámicos.
+                </p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Habilidades -->
 <section id="habilidades">
     <div class="container">
         <div class="text-center mb-5">
             <h2>Habilidades Técnicas</h2>
-            <p class="section-subtitle">Tecnologías con las que he trabajado en proyectos reales y prácticas profesionales.</p>
+            <p class="section-subtitle">Tecnologías con las que he trabajado en proyectos reales.</p>
         </div>
-
         <div class="skills-slider">
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg" alt="Python" class="skill-logo"><p>Python</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/php.svg" alt="PHP" class="skill-logo"><p>PHP</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mysql.svg" alt="MySQL" class="skill-logo"><p>MySQL</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/androidstudio.svg" alt="Android Studio" class="skill-logo"><p>Android</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/javascript.svg" alt="JavaScript" class="skill-logo"><p>JavaScript</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/html5.svg" alt="HTML" class="skill-logo"><p>HTML</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/css3.svg" alt="CSS" class="skill-logo"><p>CSS</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/postman.svg" alt="API REST" class="skill-logo"><p>API REST</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/git.svg" alt="Git" class="skill-logo"><p>Git</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/react.svg" alt="React" class="skill-logo"><p>React</p></div>
-            <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/nodedotjs.svg" alt="Node.js" class="skill-logo"><p>Node.js</p></div>
             <div class="skill-item"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/docker.svg" alt="Docker" class="skill-logo"><p>Docker</p></div>
         </div>
     </div>
 </section>
 
-<!-- Proyectos -->
 <section id="proyectos" class="section-soft">
     <div class="container">
         <div class="text-center mb-5">
-            <h2>Algunos Proyectos </h2>
-            <p class="section-subtitle">Algunos proyectos que reflejan mis habilidades en frontend, backend y desarrollo de software.</p>
+            <h2>Algunos Proyectos</h2>
         </div>
-
         <div class="row g-4">
             <div class="col-md-6">
                 <div class="proyecto">
-                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/crypto_dashboard/index.html" target="_blank">Crypto Dashboard</a></h3>
-                    <p>Dashboard en tiempo real con gráficos interactivos, buscador y filtros. Consumo de API CoinGecko.</p>
-                    <p><strong>Tecnologías:</strong> HTML, CSS, JS, Chart.js, API REST</p>
-            </div>
-
-            <div class="col-md-6">
+                    <p class="flex-grow-1">Dashboard en tiempo real con gráficos interactivos y filtros de búsqueda. Consumo de API CoinGecko.</p>
+                    <div class="mt-3">
+                        <span class="badge-tech">JS</span>
+                        <span class="badge-tech">Chart.js</span>
+                        <span class="badge-tech">API REST</span>
+                    </div>
+                </div>
+            </div> <div class="col-md-6">
                 <div class="proyecto">
-                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/img_to_pdf/index.html" target="_blank">Convertir imágenes a PDF</a></h3>
-                    <p>Aplicación web para convertir o unir imágenes en PDF.</p>
-                    <p><strong>Tecnologías:</strong> JS, HTML, CSS</p>
+                    <p class="flex-grow-1">Aplicación web funcional para convertir o unir múltiples imágenes en un solo archivo PDF de forma rápida.</p>
+                    <div class="mt-3">
+                        <span class="badge-tech">HTML5</span>
+                        <span class="badge-tech">CSS3</span>
+                        <span class="badge-tech">JavaScript</span>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="proyecto">
-                    <!-- ✅ IMG QUITADA -->
                     <h3><a href="proyectos/task_manager/index.html" target="_blank">Gestor de tareas</a></h3>
-                    <p>Sistema CRUD para gestionar las tareas</p>
-                    <p><strong>Tecnologías:</strong> JS, HTML, CSS</p>
+                    <p class="flex-grow-1">Sistema CRUD para gestionar actividades diarias, permitiendo organizar el flujo de trabajo personal.</p>
+                    <div class="mt-3">
+                        <span class="badge-tech">Frontend</span>
+                        <span class="badge-tech">LocalStorage</span>
+                        <span class="badge-tech">JS</span>
+                    </div>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="proyecto">
-                    <!-- ✅ IMG QUITADA -->
-                    <h3><a target="_blank">Guitar Hero 3D</a></h3>
-                    <p>(En desarrollo) Juego rítmico 3D con notas sincronizadas y vista inmersiva.</p>
-                    <p><strong>Tecnologías:</strong> Python, Panda3D</p>
+                    <h3><a>Guitar Hero 3D</a></h3>
+                    <p class="flex-grow-1">(En desarrollo) Un reto técnico de lógica y renderizado 3D con notas sincronizadas usando Panda3D.</p>
+                    <div class="mt-3">
+                        <span class="badge-tech">Python</span>
+                        <span class="badge-tech">Panda3D</span>
+                        <span class="badge-tech">GameDev</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Contacto -->
 <section id="contacto">
     <div class="container">
         <div class="text-center mb-5">
             <h2>Contacto</h2>
-            <p class="section-subtitle">¿Quieres trabajar conmigo o tienes una idea? Aquí puedes encontrarme.</p>
         </div>
-
         <div class="row g-4 justify-content-center">
-            <div class="col-md-3 col-6">
+            <div class="col-md-3 col-sm-6">
                 <div class="contact-card">
                     <i class="bi bi-envelope contact-icon"></i>
                     <p><strong>Email</strong></p>
-                    <a href="mailto:sergioagonzalezleal25@gmail.com">sergioagonzalezleal25@gmail.com</a>
+                    <a href="mailto:sergioagonzalezleal25@gmail.com">Enviar correo</a>
                 </div>
             </div>
-
-            <div class="col-md-3 col-6">
+            <div class="col-md-3 col-sm-6">
                 <div class="contact-card">
                     <i class="bi bi-linkedin contact-icon"></i>
                     <p><strong>LinkedIn</strong></p>
                     <a href="https://www.linkedin.com/in/sergio-antonio-gonzalez-leal-490b5435b" target="_blank">Ver perfil</a>
                 </div>
             </div>
-
-            <div class="col-md-3 col-6">
+            <div class="col-md-3 col-sm-6">
                 <div class="contact-card">
                     <i class="bi bi-telephone contact-icon"></i>
                     <p><strong>Teléfono</strong></p>
-                    <p class="mb-0">(+52) 846 115 3851</p>
+                    <p class="mb-0 text-muted small">(+52) 846 115 3851</p>
                 </div>
             </div>
-
-            <!-- ✅ GitHub REEMPLAZADO por Certificados -->
-            <div class="col-md-3 col-6">
+            <div class="col-md-3 col-sm-6">
                 <div class="contact-card">
                     <i class="bi bi-patch-check-fill contact-icon"></i>
                     <p><strong>Certificados</strong></p>
-                    <a href="certificados.html" target="_blank">Ver certificados</a>
+                    <a href="certificados.html" target="_blank">Ver logros</a>
                 </div>
             </div>
         </div>
-
         <div class="text-center mt-5">
             <a href="Sergio Antonio Gonzalez Leal CV Harv.pdf" download class="btn-cv">
                 <i class="bi bi-file-earmark-pdf"></i> Descargar CV
@@ -533,18 +474,15 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer>
     <p class="mb-0">© 2026 Sergio Antonio González Leal. Hecho con pasión y código.</p>
 </footer>
 
-<!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-    // Slick Slider
     $(document).ready(function(){
         $('.skills-slider').slick({
             infinite: true,
@@ -553,44 +491,26 @@
             autoplay: true,
             autoplaySpeed: 1500,
             arrows: false,
-            dots: false,
-            centerMode: true,
-            centerPadding: '40px',
             responsive: [
-                { breakpoint: 1200, settings: { slidesToShow: 4 } },
                 { breakpoint: 992, settings: { slidesToShow: 3 } },
-                { breakpoint: 768, settings: { slidesToShow: 2 } },
-                { breakpoint: 576, settings: { slidesToShow: 1 } }
+                { breakpoint: 576, settings: { slidesToShow: 2 } }
             ]
         });
     });
 
-    // Particles.js
     particlesJS('particles-js', {
         particles: {
             number: { value: 60, density: { enable: true, value_area: 800 } },
             color: { value: '#ffffff' },
-            shape: { type: 'circle' },
             opacity: { value: 0.5, random: true },
             size: { value: 3, random: true },
             line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.35, width: 1 },
-            move: { enable: true, speed: 1.6, direction: 'none', random: false, straight: false, out_mode: 'out' }
+            move: { enable: true, speed: 1.6 }
         },
         interactivity: {
-            detect_on: 'canvas',
-            events: {
-                onhover: { enable: true, mode: 'repulse' },
-                onclick: { enable: true, mode: 'push' },
-                resize: true
-            },
-            modes: {
-                repulse: { distance: 80, duration: 0.4 },
-                push: { particles_nb: 4 }
-            }
-        },
-        retina_detect: true
+            events: { onhover: { enable: true, mode: 'repulse' } }
+        }
     });
 </script>
-
 </body>
 </html>

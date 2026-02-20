@@ -8,6 +8,32 @@ const inputBusqueda = document.getElementById("input-busqueda");
 let datos = [];
 let grafica = null; // Para evitar crear muchas gráficas
 
+// Agrega estas variables al inicio
+let ordenAscendente = true;
+let columnaActual = '';
+
+// Función para ordenar (Agrégala antes de cargarDatos)
+function ordenar(columna) {
+    ordenAscendente = columnaActual === columna ? !ordenAscendente : true;
+    columnaActual = columna;
+
+    datos.sort((a, b) => {
+        let valA = a[columna];
+        let valB = b[columna];
+
+        // Manejo de strings (nombres)
+        if (typeof valA === 'string') {
+            return ordenAscendente 
+                ? valA.localeCompare(valB) 
+                : valB.localeCompare(valA);
+        }
+        // Manejo de números
+        return ordenAscendente ? valA - valB : valB - valA;
+    });
+
+    mostrarTabla(datos);
+}
+
 // =======================================================
 // SKELETON LOADER (Efecto de carga profesional)
 // =======================================================
@@ -49,32 +75,31 @@ async function cargarDatos() {
 // =======================================================
 // MOSTRAR TABLA
 // =======================================================
+// Modifica la función mostrarTabla para incluir data-labels
 function mostrarTabla(lista) {
     tablaBody.innerHTML = "";
 
     lista.forEach((coin, index) => {
-    const cambio = coin.price_change_percentage_24h ?? 0;
+        const cambio = coin.price_change_percentage_24h ?? 0;
+        const fila = document.createElement("tr");
+        fila.classList.add("fade-in-row");
 
-    const fila = document.createElement("tr");
-    fila.classList.add("fade-in-row");
+        fila.innerHTML = `
+            <td data-label="#">${coin.market_cap_rank}</td>
+            <td data-label="Moneda" class="moneda">
+                <img src="${coin.image}">
+                ${coin.name} (${coin.symbol.toUpperCase()})
+            </td>
+            <td data-label="Precio">$${coin.current_price.toLocaleString()}</td>
+            <td data-label="Cambio 24h" class="${cambio >= 0 ? "subio" : "bajo"}">
+                ${cambio.toFixed(2)}%
+            </td>
+            <td data-label="Market Cap">$${coin.market_cap.toLocaleString()}</td>
+        `;
 
-    fila.innerHTML = `
-        <td>${index + 1}</td>
-        <td class="moneda">
-            <img src="${coin.image}">
-            ${coin.name} (${coin.symbol.toUpperCase()})
-        </td>
-        <td>$${coin.current_price.toLocaleString()}</td>
-        <td class="${cambio >= 0 ? "subio" : "bajo"}">
-            ${cambio.toFixed(2)}%
-        </td>
-        <td>$${coin.market_cap.toLocaleString()}</td>
-    `;
-
-    fila.onclick = () => mostrarDetalles(coin.id);
-    tablaBody.appendChild(fila);
-});
-
+        fila.onclick = () => mostrarDetalles(coin.id);
+        tablaBody.appendChild(fila);
+    });
 }
 
 // =======================================================

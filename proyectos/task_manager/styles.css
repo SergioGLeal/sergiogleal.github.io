@@ -5,7 +5,6 @@
     --primary: #3b82f6;
     --primary-dark: #1e40af;
 
-    /* Fondo aclarado */
     --bg-main: #111827;
     --bg-soft: #0b1220;
 
@@ -26,7 +25,7 @@
 /* ==============================
    Reset
 ================================ */
-* {
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -40,7 +39,7 @@ body {
         linear-gradient(180deg, var(--bg-main), var(--bg-soft));
     color: #e5e7eb;
     min-height: 100vh;
-    padding: 60px 20px;
+    padding: 40px 20px 60px;
 }
 
 /* ==============================
@@ -49,56 +48,76 @@ body {
 .container {
     max-width: 1300px;
     margin: auto;
+    width: 100%;
 }
 
 header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 
 header h1 {
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 5vw, 3rem);
     font-weight: 800;
     letter-spacing: -1px;
     background: linear-gradient(90deg, #93c5fd, #c4b5fd);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 header p {
     color: #c7d2fe;
-    margin-top: 10px;
+    margin-top: 8px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
 }
 
 /* ==============================
-   Formulario (MEJORADO)
+   Formulario
 ================================ */
 form {
     display: flex;
-    gap: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
     background: rgba(255,255,255,0.1);
     backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border: 1px solid rgba(255,255,255,0.18);
-    padding: 22px;
+    padding: 18px;
     border-radius: var(--radius-lg);
-    margin-bottom: 50px;
+    margin-bottom: 40px;
+}
+
+form #titulo {
+    flex: 1 1 200px;
+    min-width: 0;
+}
+
+form #prioridad {
+    flex: 0 1 140px;
+}
+
+form button[type="submit"] {
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 input,
 select {
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    padding: 16px 18px;
+    padding: 14px 16px;
     border-radius: var(--radius-md);
     font-size: 1rem;
     outline: none;
-    flex: 1;
+    width: 100%;
     transition: all .25s ease;
+    color: #0f172a;
 }
 
-/* Select más pro */
 select {
     appearance: none;
+    -webkit-appearance: none;
     background-image:
         linear-gradient(45deg, transparent 50%, #475569 50%),
         linear-gradient(135deg, #475569 50%, transparent 50%);
@@ -107,6 +126,7 @@ select {
         calc(100% - 16px) calc(50% - 4px);
     background-size: 6px 6px;
     background-repeat: no-repeat;
+    background-color: #ffffff;
     padding-right: 40px;
     cursor: pointer;
 }
@@ -117,21 +137,29 @@ select:focus {
     box-shadow: 0 0 0 4px rgba(59,130,246,0.25);
 }
 
-/* Botón */
 button[type="submit"] {
     background: linear-gradient(90deg, var(--primary), #6366f1);
     color: white;
     border: none;
-    padding: 16px 28px;
+    padding: 14px 24px;
     border-radius: var(--radius-md);
     font-weight: 800;
+    font-size: 1rem;
     cursor: pointer;
     transition: transform .2s ease, box-shadow .2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 50px;
 }
 
 button[type="submit"]:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 30px rgba(59,130,246,.4);
+}
+
+button[type="submit"]:active {
+    transform: translateY(0);
 }
 
 /* ==============================
@@ -140,15 +168,16 @@ button[type="submit"]:hover {
 .kanban-board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
+    gap: 24px;
+    align-items: start;
 }
 
 /* Columnas */
 .kanban-column {
     background: var(--panel);
     border-radius: 24px;
-    padding: 24px;
-    min-height: 520px;
+    padding: 20px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 35px 70px rgba(2,6,23,0.18);
@@ -156,17 +185,19 @@ button[type="submit"]:hover {
 }
 
 .kanban-column:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
 }
 
 .kanban-column h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 900;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: #0f172a;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #f1f5f9;
 }
 
 .task-list {
@@ -175,76 +206,87 @@ button[type="submit"]:hover {
 }
 
 /* ==============================
-   Tarjetas (MEJORADAS)
+   Tarjetas
 ================================ */
 .task-item {
     background: var(--panel-soft);
     border: 1px solid var(--border-soft);
     border-left: 5px solid var(--primary);
-    border-radius: 18px;
-    padding: 18px 18px 18px 16px;
-    margin-bottom: 16px;
+    border-radius: 16px;
+    padding: 14px 14px 14px 12px;
+    margin-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     cursor: grab;
-    box-shadow: 0 10px 24px rgba(15,23,42,.1);
+    box-shadow: 0 6px 18px rgba(15,23,42,.08);
     transition: transform .2s ease, box-shadow .2s ease;
     animation: fadeUp .35s ease both;
+    touch-action: none; /* better drag on touch */
 }
 
 .task-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px rgba(15,23,42,.18);
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(15,23,42,.14);
 }
 
-/* Texto */
+.task-info {
+    flex: 1;
+    min-width: 0;
+}
+
 .task-info strong {
     display: block;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: #0f172a;
+    word-break: break-word;
+    line-height: 1.4;
 }
 
-/* Prioridad */
 .prioridad {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
-    padding: 6px 14px;
+    padding: 4px 10px;
     border-radius: 999px;
     font-weight: 900;
-    margin-top: 8px;
+    margin-top: 6px;
     display: inline-block;
     color: white;
+    letter-spacing: 0.5px;
 }
 
 .prioridad.alta   { background: linear-gradient(90deg, #ef4444, #dc2626); }
 .prioridad.media  { background: linear-gradient(90deg, #f59e0b, #d97706); }
 .prioridad.baja   { background: linear-gradient(90deg, #10b981, #059669); }
 
-/* Botones */
+/* Botones acción */
 .botones {
     display: flex;
-    gap: 8px;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .botones button {
     background: white;
     border: 1px solid var(--border-soft);
-    width: 38px;
-    height: 38px;
-    border-radius: 12px;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     color: #64748b;
+    font-size: 0.9rem;
     transition: all .2s ease;
+    flex-shrink: 0;
 }
 
 .botones button:hover {
     background: #fee2e2;
     color: var(--danger);
-    transform: scale(1.12);
+    transform: scale(1.1);
 }
 
 /* ==============================
@@ -253,26 +295,137 @@ button[type="submit"]:hover {
 .dragging {
     opacity: 0.45;
     transform: scale(.96);
+    cursor: grabbing;
 }
 
 .drag-over {
     outline: 3px dashed var(--primary);
     outline-offset: -8px;
+    background: rgba(59,130,246,.04);
 }
 
 /* ==============================
    Animaciones
 ================================ */
 @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(10px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ==============================
-   Responsive
+   Responsive — Tablet (≤ 900px)
 ================================ */
 @media (max-width: 900px) {
+    body {
+        padding: 30px 16px 50px;
+    }
+
     .kanban-board {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .kanban-column {
+        min-height: unset;
+        border-radius: 18px;
+        padding: 18px;
+    }
+
+    .kanban-column:hover {
+        transform: none; /* disable hover lift on touch/tablet */
+    }
+}
+
+/* ==============================
+   Responsive — Mobile (≤ 600px)
+================================ */
+@media (max-width: 600px) {
+    body {
+        padding: 20px 12px 40px;
+    }
+
+    header {
+        margin-bottom: 28px;
+    }
+
+    form {
+        flex-direction: column;
+        padding: 14px;
+        gap: 10px;
+        border-radius: var(--radius-md);
+        margin-bottom: 24px;
+    }
+
+    form #titulo,
+    form #prioridad {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    form button[type="submit"] {
+        width: 100%;
+        justify-content: center;
+        padding: 14px;
+    }
+
+    input,
+    select {
+        padding: 13px 14px;
+        font-size: 16px; /* prevents iOS zoom on focus */
+    }
+
+    .kanban-board {
+        gap: 12px;
+    }
+
+    .kanban-column {
+        padding: 14px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(2,6,23,0.14);
+    }
+
+    .kanban-column h2 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+    }
+
+    .task-item {
+        padding: 12px 10px 12px 10px;
+        border-radius: 12px;
+        gap: 8px;
+    }
+
+    .task-item:hover {
+        transform: none;
+    }
+
+    .task-info strong {
+        font-size: 0.9rem;
+    }
+
+    .prioridad {
+        font-size: 0.6rem;
+        padding: 3px 8px;
+    }
+
+    .botones button {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+    }
+}
+
+/* ==============================
+   Extra pequeño (≤ 360px)
+================================ */
+@media (max-width: 360px) {
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .botones {
+        align-self: flex-end;
     }
 }

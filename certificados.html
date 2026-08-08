@@ -39,6 +39,27 @@
             color: white !important;
             font-weight: 500;
         }
+        .btn-volver {
+            color: white !important;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-volver:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+            transform: translateY(-1px);
+        }
 
         /* Header */
         header{
@@ -119,11 +140,10 @@
 
 <body>
 
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
+    <div class="container-fluid px-4">
         <a class="navbar-brand" href="index.html">Sergio G.</a>
-        <a class="nav-link ms-auto" href="index.html">← Volver al portafolio</a>
+        <a class="btn-volver ms-auto" href="index.html"><i class="bi bi-arrow-left"></i> Volver al portafolio</a>
     </div>
 </nav>
 
